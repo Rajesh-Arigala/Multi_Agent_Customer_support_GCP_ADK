@@ -1,0 +1,12 @@
+{
+  "guest": {
+    "name": "Guest User",
+    "email": "guest@example.com",
+    "company": "Example Customer"
+  },
+  "student_001": {
+    "name": "Demo Customer",
+    "email": "demo.customer@example.com",
+    "company": "Demo Company"
+  }
+}

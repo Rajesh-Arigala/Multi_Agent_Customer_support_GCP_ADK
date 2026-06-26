@@ -1,0 +1,32 @@
+[
+  {
+    "keyword": "password",
+    "aliases": ["reset password", "forgot password"],
+    "answer": "To reset your password, open Settings, choose Account, then select Reset Password. Check your email for the reset link."
+  },
+  {
+    "keyword": "billing",
+    "aliases": ["invoice", "payment", "charge"],
+    "answer": "For billing issues, share the invoice or charge details in a support ticket and our team will review it."
+  },
+  {
+    "keyword": "refund",
+    "aliases": ["money back", "return payment"],
+    "answer": "Refunds are usually processed within 5 to 7 business days to the original payment method."
+  },
+  {
+    "keyword": "login",
+    "aliases": ["sign in", "signin", "log in"],
+    "answer": "If you cannot log in, clear your browser cache, check Caps Lock, and try resetting your password."
+  },
+  {
+    "keyword": "account",
+    "aliases": ["profile", "details"],
+    "answer": "To update account details, go to Settings, choose Profile, and select Edit."
+  },
+  {
+    "keyword": "cancel",
+    "aliases": ["cancellation", "subscription"],
+    "answer": "To cancel a subscription, open Settings, choose Billing, then select Cancel Plan."
+  }
+]

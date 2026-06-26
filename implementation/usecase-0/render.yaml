@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: usecase-0-customer-support
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATA_DIR
+        value: /opt/render/project/src/data

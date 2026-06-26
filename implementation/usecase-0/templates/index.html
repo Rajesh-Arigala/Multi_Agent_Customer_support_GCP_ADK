@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Multi-Agent Customer Support Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Usecase 0</p>
+            <h1>Multi-Agent Customer Support Demo</h1>
+          </div>
+          <span id="health" class="health">Checking</span>
+        </header>
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <div class="samples" aria-label="Sample questions">
+          <button type="button" data-sample="How do I reset my password?">Password help</button>
+          <button type="button" data-sample="Create a ticket for my billing issue.">Create ticket</button>
+          <button type="button" data-sample="Check TKT-0001">Check ticket</button>
+          <button type="button" data-sample="This is urgent. I am very frustrated.">Escalate</button>
+        </div>
+        <form id="chat-form" class="composer">
+          <input id="message-input" name="message" autocomplete="off" placeholder="Ask a support question" required>
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
