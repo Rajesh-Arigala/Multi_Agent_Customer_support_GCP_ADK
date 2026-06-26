@@ -110,15 +110,39 @@ CsvStore append/find/update tests passed
 Sheet tab schema mapping tests passed
 ```
 
-Next verification target on GCP:
+GCP verification completed:
 
 ```text
-run scripts/smoke_sheets_storage.py from Cloud Shell
-append row to AuditLogs
-read row from AuditLogs
+GoogleSheetsStore appended and read back an AuditLogs row from the live Sheet
 ```
 
-Do not build agent logic until the GoogleSheetsStore smoke test passes.
+
+## Implemented Backend Unit: Agent Layer
+The reusable agent layer is now implemented locally:
+
+```text
+support_orchestrator
+triage_agent
+web_search_agent
+ticket_agent
+escalation_agent
+FAQ, ticket, user, escalation, memory, and audit tools
+```
+
+Verification completed locally:
+
+```text
+agent routing tests passed
+ticket lifecycle tests passed
+escalation tests passed
+memory/audit tests passed
+```
+
+Next verification target on Cloud Shell:
+
+```bash
+PYTHONPATH=. python scripts/smoke_agent_local.py
+```
 
 ## Usecase Mapping
 | usecase-0 baseline | usecase-1 doctor appointment agent |
@@ -142,8 +166,8 @@ Current order:
 
 ```text
 backend foundation - done
-storage layer - implemented locally, pending GCP smoke
-agent layer - next after Sheets smoke
+storage layer - verified locally and on GCP
+agent layer - implemented locally, pending Cloud Shell smoke
 Cloud Run / Vertex deployment
 usecase-1 specialization
 ```

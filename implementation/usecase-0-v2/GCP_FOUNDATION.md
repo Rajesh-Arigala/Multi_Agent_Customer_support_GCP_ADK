@@ -42,7 +42,6 @@ Sheets smoke script
 Not completed yet:
 
 ```text
-ADK agent package
 Vertex AI Agent Engine deployment
 Cloud Run backend wrapper
 retrieval/index service
@@ -330,3 +329,29 @@ Agent layer third
 Cloud Run / Vertex deployment after local and Sheets storage are verified
 ```
 
+
+## Agent Layer Update
+The local backend agent layer has been added after storage verification.
+
+Implemented:
+
+```text
+support_orchestrator
+triage_agent
+web_search_agent
+ticket_agent
+escalation_agent
+FAQ, ticket, user, escalation, memory, and audit tools
+```
+
+Local verification:
+
+```text
+9 tests passed
+```
+
+Next gate:
+
+```text
+run scripts/smoke_agent_local.py in Cloud Shell
+```

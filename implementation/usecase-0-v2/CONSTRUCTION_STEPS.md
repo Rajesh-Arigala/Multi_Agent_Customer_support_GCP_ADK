@@ -229,7 +229,7 @@ the same row is read back by event_id
 
 ### Status
 ```text
-storage layer implemented locally - pending GCP smoke test
+storage layer verified locally and on GCP
 ```
 
 ## Layer 3 - Agent Layer
@@ -242,7 +242,7 @@ Agents should be built only after storage is verified, because agents will creat
 
 If storage is unstable, agent failures become difficult to debug.
 
-### Planned Components
+### Implemented Components
 ```text
 support_orchestrator
 triage_agent
@@ -251,10 +251,10 @@ ticket_agent
 escalation_agent
 ```
 
-### Planned Tools
+### Implemented Tools
 ```text
 FAQ retrieval
-web search fallback
+web search fallback placeholder
 ticket create/check/update
 user lookup
 escalation
@@ -263,11 +263,46 @@ after-agent fact save
 audit logging
 ```
 
-### Gate To Start
-Start this layer only after:
+### Verification Gate
+Run local tests:
+
+```bash
+python -m pytest
+```
+
+Expected result:
 
 ```text
-GoogleSheetsStore smoke test passes against the live Sheet
+agent routing tests pass
+ticket lifecycle tests pass
+escalation tests pass
+memory/audit tests pass
+```
+
+Current result:
+
+```text
+9 tests passed
+```
+
+### Cloud Shell Smoke Gate
+Run:
+
+```bash
+PYTHONPATH=. python scripts/smoke_agent_local.py
+```
+
+Expected result:
+
+```text
+triage_agent - ...
+ticket_agent - ...
+escalation_agent - ...
+```
+
+### Status
+```text
+agent layer implemented locally - pending Cloud Shell smoke
 ```
 
 ## Construction Order
