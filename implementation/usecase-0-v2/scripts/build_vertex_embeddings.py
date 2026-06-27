@@ -13,7 +13,7 @@ from backend.retrieval.vector import normalize_vector
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-DEFAULT_CORPUS_PATH = BASE_DIR / "rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl"
+DEFAULT_CORPUS_PATH = BASE_DIR / "rag_pipeline/drmadhupatil_corpus/07_output_enriched_documents/drmadhupatil_enriched_rag_corpus.jsonl"
 DEFAULT_OUTPUT_DIR = BASE_DIR / "rag_pipeline/drmadhupatil_corpus/08_output_vertex_embeddings"
 
 

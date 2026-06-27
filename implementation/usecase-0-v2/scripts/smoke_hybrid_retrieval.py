@@ -7,8 +7,8 @@ CORPUS_PATH = (
     Path(__file__).resolve().parents[1]
     / "rag_pipeline"
     / "drmadhupatil_corpus"
-    / "06_output_rag_documents_ready"
-    / "drmadhupatil_rag_corpus.jsonl"
+    / "07_output_enriched_documents"
+    / "drmadhupatil_enriched_rag_corpus.jsonl"
 )
 
 

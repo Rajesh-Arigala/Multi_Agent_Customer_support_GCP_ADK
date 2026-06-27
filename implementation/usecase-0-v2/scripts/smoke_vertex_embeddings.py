@@ -9,7 +9,7 @@ from backend.retrieval.vertex_embeddings import VertexTextEmbeddingModel
 
 
 BASE_DIR = Path(__file__).resolve().parents[1]
-CORPUS_PATH = BASE_DIR / "rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl"
+CORPUS_PATH = BASE_DIR / "rag_pipeline/drmadhupatil_corpus/07_output_enriched_documents/drmadhupatil_enriched_rag_corpus.jsonl"
 EMBEDDINGS_PATH = BASE_DIR / "rag_pipeline/drmadhupatil_corpus/08_output_vertex_embeddings/drmadhupatil_vertex_embeddings.jsonl"
 
 

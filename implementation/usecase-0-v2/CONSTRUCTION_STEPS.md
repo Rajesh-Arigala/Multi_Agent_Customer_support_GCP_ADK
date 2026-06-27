@@ -580,8 +580,63 @@ fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
 ```text
 FaqTools connected to real Vertex embedding artifacts
 local fallback modes preserved
-21 tests passed locally
+26 tests passed locally
 Cloud Shell agent-level smoke pending
+```
+
+## Layer 4H - Metadata Enrichment
+
+### Goal
+Add business-useful metadata so retrieval can filter by service, condition, treatment, page type, and appointment eligibility before ranking.
+
+### Logic
+Embeddings are good at semantic similarity, but business routing needs controlled metadata. The enrichment layer is deterministic so retrieval decisions remain explainable.
+
+```text
+approved RAG corpus
+-> deterministic metadata rules
+-> enriched RAG corpus
+-> inferred query filters
+-> filtered hybrid retrieval
+-> fallback to unfiltered retrieval if filters are too strict
+```
+
+### Construction Steps
+1. Add `backend/retrieval/metadata.py` with service-page business metadata rules.
+2. Add `backend/retrieval/filters.py` to infer metadata filters from user questions.
+3. Add `scripts/enrich_rag_metadata.py` to generate the enriched corpus and manifest.
+4. Update default corpus paths to `07_output_enriched_documents`.
+5. Extend `HybridRetriever` filters to support list fields such as `conditions` and `treatments`.
+6. Update `FaqTools` to apply inferred metadata filters before normal hybrid ranking.
+7. Preserve fallback to unfiltered retrieval when metadata filters miss.
+8. Add metadata enrichment and filtering tests.
+
+### Verification Gate
+Run:
+
+```bash
+PYTHONPATH=. python scripts/enrich_rag_metadata.py
+PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Expected:
+
+```text
+documents=8
+page_types={'homepage': 1, 'service': 6, 'blog': 1}
+PCOS/endometriosis -> WEB-DRMADHU-006
+IVF/ICSI -> WEB-DRMADHU-003
+fertility preservation -> WEB-DRMADHU-005
+26 tests passed
+```
+
+### Status
+```text
+metadata enrichment implemented locally
+enriched corpus generated
+metadata-aware filtering verified locally
+Cloud Shell verification pending
 ```
 
 ## Construction Order
@@ -594,6 +649,7 @@ GCP foundation
 -> RAG corpus
 -> hybrid retrieval
 -> Vertex embeddings
+-> metadata enrichment
 -> API
 -> deployment
 -> usecase-1 specialization

@@ -178,7 +178,7 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 21 passed
+full test suite: 26 passed
 ```
 
 Smoke command:
@@ -233,7 +233,7 @@ Local verification uses a fake embedding model and precomputed vectors. Cloud Sh
 Vertex embedding path tests pass
 Cloud Shell embedding build: documents=8, dimensions=768, faiss_index_written=True
 Cloud Shell smoke: service-specific queries resolve to service pages
-full test suite: 21 passed
+full test suite: 26 passed
 ```
 
 ## Implemented Backend Unit: Agent Retrieval Integration
@@ -242,7 +242,7 @@ The FAQ/retrieval tool now uses the real Vertex embedding artifacts when they ar
 ```text
 FaqTools
 -> FAQ rows first, if maintained in storage
--> otherwise approved website RAG corpus
+-> otherwise approved enriched website RAG corpus
 -> Vertex document vectors, if artifact exists
 -> BM25 + Vertex-vector hybrid retrieval
 -> web_search_agent only after local retrieval misses
@@ -275,8 +275,66 @@ Local verification:
 ```text
 FaqTools Vertex-artifact path tests pass
 scripts compile
-full test suite: 21 passed
+full test suite: 26 passed
 ```
+
+## Implemented Backend Unit: Metadata Enrichment
+The RAG corpus now has deterministic business metadata for filtering before retrieval scoring.
+
+```text
+raw approved RAG corpus
+-> scripts/enrich_rag_metadata.py
+-> enriched RAG corpus
+-> metadata-aware filters
+-> hybrid retrieval
+```
+
+Enriched artifact:
+
+```text
+rag_pipeline/drmadhupatil_corpus/07_output_enriched_documents/drmadhupatil_enriched_rag_corpus.jsonl
+```
+
+Metadata fields include:
+
+```text
+page_type
+service_slug
+service_name
+specialty
+conditions
+treatments
+intent
+appointment_eligible
+emergency_related
+source_priority
+metadata_version
+```
+
+Filtering behavior:
+
+```text
+PCOS/endometriosis query -> conditions filter -> service5
+IVF appointment query -> treatments + appointment_eligible filters -> service2
+No filtered hit -> retry without metadata filter
+```
+
+Build command:
+
+```bash
+PYTHONPATH=. python scripts/enrich_rag_metadata.py
+```
+
+Local verification:
+
+```text
+enriched documents=8
+page_types={'homepage': 1, 'service': 6, 'blog': 1}
+metadata enrichment tests pass
+full test suite: 26 passed
+```
+
+Existing Vertex embeddings remain compatible because vectors are keyed by `doc_id`. Rebuild embeddings only when document text changes or when metadata is intentionally added to embedding text.
 
 ## Usecase Mapping
 | usecase-0 baseline | usecase-1 doctor appointment agent |
@@ -303,6 +361,7 @@ backend foundation - done
 storage layer - verified locally and on GCP
 agent layer - verified locally and on Cloud Shell
 RAG corpus - generated and approved for drmadhupatil.com
+metadata enrichment - implemented and tested
 hybrid retrieval - implemented and tested
 Cloud Run / Vertex deployment
 usecase-1 specialization

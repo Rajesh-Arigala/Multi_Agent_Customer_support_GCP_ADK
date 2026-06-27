@@ -476,7 +476,7 @@ hormonal irregular periods -> WEB-DRMADHU-006 / service5
 Test result:
 
 ```text
-21 passed
+26 passed
 ```
 
 Status:
@@ -523,7 +523,7 @@ PYTHONPATH=. python -m pytest -p no:cacheprovider
 Result:
 
 ```text
-21 passed
+26 passed
 ```
 
 Script syntax verification completed:
@@ -554,6 +554,101 @@ Status:
 ```text
 Layer 4G implemented and locally verified.
 Cloud Shell agent-level smoke pending.
+```
+
+## Step 17 - Metadata Enrichment Layer
+Added deterministic business metadata to the approved RAG corpus so retrieval can filter before scoring.
+
+New files:
+
+```text
+backend/retrieval/metadata.py
+backend/retrieval/filters.py
+scripts/enrich_rag_metadata.py
+tests/test_metadata_enrichment.py
+```
+
+New generated artifacts:
+
+```text
+rag_pipeline/drmadhupatil_corpus/07_output_enriched_documents/drmadhupatil_enriched_rag_corpus.jsonl
+rag_pipeline/drmadhupatil_corpus/07_output_enriched_documents/metadata_enrichment_manifest.json
+```
+
+Metadata fields added:
+
+```text
+page_type
+service_slug
+service_name
+specialty
+conditions
+treatments
+intent
+appointment_eligible
+emergency_related
+source_priority
+metadata_version
+```
+
+Filtering behavior added:
+
+```text
+conditions list membership
+treatments list membership
+appointment_eligible boolean filtering
+metadata-filtered search with unfiltered fallback
+```
+
+Generation command:
+
+```bash
+PYTHONPATH=. python scripts/enrich_rag_metadata.py
+```
+
+Generation result:
+
+```text
+RAG metadata enriched
+documents=8
+page_types={'homepage': 1, 'service': 6, 'blog': 1}
+```
+
+Local smoke result:
+
+```text
+PCOS/endometriosis -> WEB-DRMADHU-006
+IVF/ICSI -> WEB-DRMADHU-003
+fertility preservation -> WEB-DRMADHU-005
+```
+
+Local test result:
+
+```text
+26 passed
+```
+
+Embedding note:
+
+```text
+Existing Vertex embeddings remain compatible because vectors are keyed by doc_id and searchable_text has not changed.
+Rebuild embeddings only if document text changes or if metadata is intentionally added to searchable_text.
+```
+
+Cloud Shell next gate:
+
+```bash
+PYTHONPATH=. python scripts/enrich_rag_metadata.py
+PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+PYTHONPATH=. python scripts/smoke_agent_vertex_retrieval.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Status:
+
+```text
+Layer 4H implemented and locally verified.
+Cloud Shell verification pending.
 ```
 
 ## Future Note - Corpus Refresh Automation

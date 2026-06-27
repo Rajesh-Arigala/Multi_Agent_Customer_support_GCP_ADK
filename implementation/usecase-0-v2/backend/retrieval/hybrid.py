@@ -104,7 +104,7 @@ class HybridRetriever:
                 candidate = getattr(document, key, None)
                 if candidate is None:
                     candidate = document.metadata.get(key)
-                if str(candidate) != str(value):
+                if not _metadata_value_matches(candidate, value):
                     keep = False
                     break
             if keep:
@@ -118,3 +118,11 @@ def _title_overlap_boost(query: str, document: RetrievalDocument) -> float:
     if not query_tokens or not title_tokens:
         return 0.0
     return 0.35 * (len(query_tokens & title_tokens) / len(query_tokens))
+
+
+def _metadata_value_matches(candidate, expected) -> bool:
+    if isinstance(expected, (list, tuple, set)):
+        return any(_metadata_value_matches(candidate, item) for item in expected)
+    if isinstance(candidate, (list, tuple, set)):
+        return any(str(item).lower() == str(expected).lower() for item in candidate)
+    return str(candidate).lower() == str(expected).lower()
