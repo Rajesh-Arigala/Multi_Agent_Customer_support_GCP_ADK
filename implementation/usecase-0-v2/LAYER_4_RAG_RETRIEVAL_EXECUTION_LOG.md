@@ -329,7 +329,7 @@ Verification after n-gram refinement:
 
 ```text
 hybrid retrieval smoke passed
-16 tests passed
+17 tests passed
 ```
 
 ## Step 13 - Added Vertex AI Embedding Path
@@ -373,10 +373,12 @@ Use BM25 + Vertex-vector hybrid scoring.
 Local verification uses a fake embedding model so tests do not call Vertex:
 
 ```text
-16 tests passed
+17 tests passed
 ```
 
 Cloud Shell verification remains pending until `build_vertex_embeddings.py` is run in GCP.
+
+Added `tests/test_script_syntax.py` after Cloud Shell exposed a syntax issue in the embedding build script. This compiles project scripts into a temporary pytest directory and prevents repo `__pycache__` churn.
 
 ## Step 12 - Cleanliness Check
 Checked for unwanted local artifacts:

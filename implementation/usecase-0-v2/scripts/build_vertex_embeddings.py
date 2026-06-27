@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -97,11 +98,7 @@ def _write_faiss_index(vectors, documents, index_path: Path, ids_path: Path) -> 
     index.add(matrix)
     faiss.write_index(index, str(index_path))
     ids_path.write_text(
-        "[
-" + ",
-".join(f'  "{document.doc_id}"' for document in documents) + "
-]
-",
+        json.dumps([document.doc_id for document in documents], indent=2) + "\n",
         encoding="utf-8",
     )
     return True

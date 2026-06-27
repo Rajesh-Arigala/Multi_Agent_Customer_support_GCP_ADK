@@ -178,7 +178,7 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 16 passed
+full test suite: 17 passed
 ```
 
 Smoke command:
@@ -222,7 +222,7 @@ Local verification uses a fake embedding model and precomputed vectors:
 
 ```text
 Vertex embedding path tests pass
-full test suite: 16 passed
+full test suite: 17 passed
 ```
 
 ## Usecase Mapping

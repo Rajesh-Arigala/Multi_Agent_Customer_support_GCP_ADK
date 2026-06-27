@@ -282,7 +282,7 @@ memory/audit tests pass
 Current result:
 
 ```text
-16 tests passed
+17 tests passed
 ```
 
 ### Cloud Shell Smoke Gate
@@ -401,7 +401,7 @@ Current result:
 
 ```text
 hybrid retrieval smoke passed
-16 tests passed
+17 tests passed
 ```
 
 ### Status
