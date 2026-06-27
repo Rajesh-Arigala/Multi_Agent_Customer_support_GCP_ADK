@@ -580,7 +580,7 @@ fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
 ```text
 FaqTools connected to real Vertex embedding artifacts
 local fallback modes preserved
-26 tests passed locally
+31 tests passed locally
 Cloud Shell agent-level smoke pending
 ```
 
@@ -637,6 +637,56 @@ metadata enrichment implemented locally
 enriched corpus generated
 metadata-aware filtering verified locally
 Cloud Shell verification pending
+```
+
+## Layer 5 - API Layer
+
+### Goal
+Expose the backend orchestrator as HTTP endpoints so external clients can call the system before Cloud Run deployment.
+
+### Logic
+Keep the API thin. Route handlers should validate request shape, call the existing orchestrator, and return JSON. Retrieval, storage, tickets, memory, and escalation remain in backend services/tools.
+
+```text
+client
+-> FastAPI
+-> SupportOrchestrator
+-> FaqTools / TicketTools / EscalationTools
+-> StorageService
+```
+
+### Construction Steps
+1. Add `backend/api/runtime.py` for health, metadata status, storage factory, and smoke queries.
+2. Add `backend/api/app.py` with FastAPI routes.
+3. Add `requirements-api.txt` so API dependencies stay separate from core test dependencies.
+4. Add `scripts/smoke_api_local.py` to test API behavior with FastAPI `TestClient`.
+5. Add runtime tests that do not require FastAPI installation.
+
+### Verification Gate
+Run core tests:
+
+```bash
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Run API smoke after installing API dependencies:
+
+```bash
+pip install -r requirements-api.txt
+PYTHONPATH=. python scripts/smoke_api_local.py
+```
+
+Run server:
+
+```bash
+PYTHONPATH=. uvicorn backend.api.app:app --host 0.0.0.0 --port 8080
+```
+
+### Status
+```text
+API layer implemented locally
+31 tests passed locally
+Cloud Shell API smoke pending
 ```
 
 ## Construction Order

@@ -178,7 +178,7 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 26 passed
+full test suite: 31 passed
 ```
 
 Smoke command:
@@ -233,7 +233,7 @@ Local verification uses a fake embedding model and precomputed vectors. Cloud Sh
 Vertex embedding path tests pass
 Cloud Shell embedding build: documents=8, dimensions=768, faiss_index_written=True
 Cloud Shell smoke: service-specific queries resolve to service pages
-full test suite: 26 passed
+full test suite: 31 passed
 ```
 
 ## Implemented Backend Unit: Agent Retrieval Integration
@@ -275,7 +275,7 @@ Local verification:
 ```text
 FaqTools Vertex-artifact path tests pass
 scripts compile
-full test suite: 26 passed
+full test suite: 31 passed
 ```
 
 ## Implemented Backend Unit: Metadata Enrichment
@@ -331,10 +331,59 @@ Local verification:
 enriched documents=8
 page_types={'homepage': 1, 'service': 6, 'blog': 1}
 metadata enrichment tests pass
-full test suite: 26 passed
+full test suite: 31 passed
 ```
 
 Existing Vertex embeddings remain compatible because vectors are keyed by `doc_id`. Rebuild embeddings only when document text changes or when metadata is intentionally added to embedding text.
+
+## Implemented Backend Unit: API Layer
+The backend now exposes the orchestrator through FastAPI.
+
+```text
+GET  /health
+GET  /metadata/status
+POST /chat
+GET  /retrieval/smoke
+```
+
+API files:
+
+```text
+backend/api/app.py
+backend/api/runtime.py
+scripts/smoke_api_local.py
+requirements-api.txt
+```
+
+Run locally or in Cloud Shell after installing API dependencies:
+
+```bash
+pip install -r requirements-api.txt
+PYTHONPATH=. uvicorn backend.api.app:app --host 0.0.0.0 --port 8080
+```
+
+Smoke command:
+
+```bash
+PYTHONPATH=. python scripts/smoke_api_local.py
+```
+
+Expected smoke:
+
+```text
+health 200 ok
+metadata 200 ok 8
+chat 200 triage_agent WEB-DRMADHU-006 hybrid_vertex
+retrieval_smoke 200 3
+```
+
+Local verification:
+
+```text
+API runtime tests pass
+API modules compile
+full test suite: 31 passed
+```
 
 ## Usecase Mapping
 | usecase-0 baseline | usecase-1 doctor appointment agent |
@@ -363,6 +412,7 @@ agent layer - verified locally and on Cloud Shell
 RAG corpus - generated and approved for drmadhupatil.com
 metadata enrichment - implemented and tested
 hybrid retrieval - implemented and tested
+API layer - implemented locally
 Cloud Run / Vertex deployment
 usecase-1 specialization
 ```
