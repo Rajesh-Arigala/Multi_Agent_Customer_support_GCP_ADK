@@ -1,0 +1,771 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IVF &amp; ICSI Treatments - Advanced Fertility Solutions</title>
+    <link rel="icon" type="image/png" href="/images/logo.webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --mustard: #D4A017;
+            --mustard-dark: #B38B12;
+            --mustard-light: #FFD700;
+            --mustard-pale: #FFEEAD;
+            --mustard-gradient: linear-gradient(135deg, #FFD700 0%, #D4A017 50%, #B38B12 100%);
+
+            --accent: #5D8A7F;
+            --accent-dark: #3A5A5F;
+
+            --dark: #333333;
+            --light: #FFFFFF;
+            --gray: #F8F8F8;
+            --gray-dark: #777777;
+
+            --shadow: 0 5px 15px rgba(212, 160, 23, 0.15);
+        }
+
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--mustard-dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--mustard);
+            margin: 15px auto;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--gray-dark);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--mustard);
+            color: var(--light);
+            border: 2px solid var(--mustard);
+        }
+
+        .btn-primary:hover {
+            background: var(--mustard-dark);
+            border-color: var(--mustard-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 160, 23, 0.3);
+        }
+
+        /* ===== SERVICE HERO SECTION ===== */
+        .service-hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('/images/service2.webp') no-repeat center center/cover;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .service-hero h1 {
+            font-size: 3rem;
+            color: var(--mustard-dark);
+            margin-bottom: 20px;
+        }
+
+        .service-hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--dark);
+        }
+
+        /* ===== CONTENT SECTIONS ===== */
+        .content-block {
+            margin-bottom: 60px;
+        }
+
+        .content-block h2 {
+            font-size: 2rem;
+            color: var(--mustard-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--mustard-pale);
+        }
+
+        .content-block h3 {
+            color: var(--mustard-dark);
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .content-block p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .content-block ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .content-block ul li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .content-block ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--mustard);
+            font-weight: bold;
+        }
+
+        /* ===== TREATMENT CARDS ===== */
+        .treatment-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .treatment-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .treatment-card-header {
+            padding: 25px;
+            text-align: center;
+            color: var(--light);
+            background: var(--mustard);
+        }
+
+        .treatment-card-content {
+            padding: 25px;
+        }
+
+        /* ===== PROCESS TIMELINE ===== */
+        .process-section {
+            background-color: var(--mustard-pale);
+            padding: 60px 0;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+            padding: 20px;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .timeline-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--mustard);
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .timeline-content {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            flex: 1;
+        }
+
+        .timeline-content h3 {
+            color: var(--mustard-dark);
+            margin-bottom: 15px;
+        }
+
+        /* ===== BENEFICIARIES SECTION ===== */
+        .beneficiaries-section {
+            background-color: var(--gray);
+            padding: 60px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+
+        .beneficiaries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .beneficiary-item {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .beneficiary-item h3 {
+            color: var(--mustard-dark);
+            margin-bottom: 10px;
+        }
+
+        /* ===== PROTOCOLS SECTION ===== */
+        .protocols-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .protocol-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 5px solid var(--mustard);
+        }
+
+        .protocol-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .protocol-icon {
+            font-size: 2.5rem;
+            color: var(--mustard);
+            margin-bottom: 20px;
+        }
+
+        .protocol-card h3 {
+            color: var(--mustard-dark);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* ===== IMAGE SECTIONS ===== */
+        .image-section {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .responsive-image {
+            max-width: 70%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .image-caption {
+            margin-top: 15px;
+            font-style: italic;
+            color: var(--gray-dark);
+        }
+
+        /* ===== RISKS SECTION ===== */
+        .risks-section {
+            background-color: var(--mustard-pale);
+            padding: 60px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+
+        .risks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .risk-item {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .risk-item h3 {
+            color: var(--mustard-dark);
+            margin-bottom: 10px;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: var(--mustard-gradient);
+            text-align: center;
+            padding: 80px 0;
+            color: var(--light);
+        }
+
+        .cta-btn {
+            background: var(--light);
+            color: var(--mustard-dark);
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+
+        .cta-btn:hover {
+            background: var(--mustard-pale);
+        }
+
+        /* ===== HIGHLIGHT BOX ===== */
+        .highlight-box {
+            background-color: var(--mustard-pale);
+            border-left: 4px solid var(--mustard);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 10px;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .treatment-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-step {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .timeline-icon {
+                margin-bottom: 15px;
+            }
+            
+            .service-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .beneficiaries-section,
+            .risks-section {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 50px 0;
+            }
+            
+            .service-hero {
+                padding: 80px 0 50px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HERO -->
+    <section class="service-hero">
+        <div class="container">
+            <h1>IVF &amp; ICSI Treatments</h1>
+            <p>Advanced treatments tailored to each patient's unique needs, employing evidence-based protocols and state-of-the-art technology.</p>
+            <a href="index#contact" class="btn btn-primary">Schedule Your Consultation</a>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <section class="section service-content">
+        <div class="container">
+
+            <!-- WHAT IS IVF & ICSI -->
+            <div class="content-block">
+                <h2>What is IVF &amp; ICSI?</h2>
+                <div class="treatment-cards">
+                    <div class="treatment-card">
+                        <div class="treatment-card-header">
+                            <h3 style="color: white;">IVF (In Vitro Fertilization)</h3>
+                        </div>
+                        <div class="treatment-card-content">
+                            <p>Eggs are collected from the ovaries and fertilized with sperm in the lab. The process involves retrieving mature eggs from a woman's ovaries and fertilizing them with sperm outside the body, in a laboratory dish.</p>
+                        </div>
+                    </div>
+
+                    <div class="treatment-card">
+                        <div class="treatment-card-header">
+                            <h3 style="color: white;">ICSI (Intracytoplasmic Sperm Injection)</h3>
+                        </div>
+                        <div class="treatment-card-content">
+                            <p>A single healthy sperm is directly injected into an egg under a microscope, increasing the chances of fertilization. The fertilized eggs, called embryos, are then transferred into the woman's uterus, where they may implant and develop into a pregnancy.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EMBRYO IMAGE -->
+            <!-- <div class="image-section">
+                <img src="./images/sss2.1.webp" alt="Embryo development in laboratory" class="responsive-image">
+                <p class="image-caption">State-of-the-art laboratory for embryo development</p>
+            </div> -->
+
+            <!-- WHO CAN BENEFIT -->
+            <div class="content-block">
+                <h2>Who Can Benefit from IVF &amp; ICSI?</h2>
+                <div class="beneficiaries-section">
+                    <div class="beneficiaries-grid">
+                        <div class="beneficiary-item">
+                            <h3>Unexplained Infertility</h3>
+                            <p>Couples with all normal reports but still unable to conceive</p>
+                        </div>
+                        
+                        <div class="beneficiary-item">
+                            <h3>Tubal Issues</h3>
+                            <p>Women with blocked/damaged fallopian tubes or tubal sterilization</p>
+                        </div>
+                        
+                        <div class="beneficiary-item">
+                            <h3>Male Factor</h3>
+                            <p>Low sperm count, zero sperm count, poor motility, or abnormal morphology</p>
+                        </div>
+                        
+                        <div class="beneficiary-item">
+                            <h3>IUI Failures</h3>
+                            <p>Couples with multiple unsuccessful IUI attempts</p>
+                        </div>
+                        
+                        <div class="beneficiary-item">
+                            <h3>Medical Conditions</h3>
+                            <p>Patients with PCOS, endometriosis, or low ovarian reserve</p>
+                        </div>
+                        
+                        <div class="beneficiary-item">
+                            <h3>Recurrent Loss</h3>
+                            <p>Couples with a history of recurrent abortions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TREATMENT STEPS -->
+            <div class="content-block">
+                <h2>IVF &amp; ICSI Treatment Steps</h2>
+                <div class="process-section">
+                    <div class="timeline">
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-file-medical"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 1: Initial Assessment &amp; Planning</h3>
+                                <ul>
+                                    <li>Medical history review and diagnostic tests</li>
+                                    <li>Creating a personalized treatment plan</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-syringe"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 2: Ovarian Stimulation</h3>
+                                <ul>
+                                    <li>Baseline ultrasound to check follicle count</li>
+                                    <li>Daily hormonal injections (FSH/LH) for 8-12 days</li>
+                                    <li>Medications to prevent premature ovulation</li>
+                                    <li>Regular monitoring via ultrasounds and blood tests</li>
+                                    <li>Trigger injection for final egg maturation</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-procedures"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 3: Egg Retrieval</h3>
+                                <div class="highlight-box">
+                                    <p><strong>Important Timing:</strong> Egg retrieval is performed 34-36 hours after the trigger injection. This timing is critical for successful retrieval of mature eggs.</p>
+                                </div>
+                                <ul>
+                                    <li>Performed under sedation/anesthesia</li>
+                                    <li>Ultrasound-guided needle aspiration of follicles</li>
+                                    <li>Goal: 8-15 high-quality mature eggs</li>
+                                    <li>Minimizing risk of OHSS</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-microscope"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 4: Fertilization</h3>
+                                <ul>
+                                    <li>IVF: Eggs cultured with sperm in dish</li>
+                                    <li>ICSI: Single sperm injected directly into egg</li>
+                                    <li>ICSI increases fertilization chances</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-vial"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 5: Embryo Culture</h3>
+                                <ul>
+                                    <li>Embryos cultured for 3-5 days</li>
+                                    <li>Day 5 embryos called blastocysts (100-250 cells)</li>
+                                    <li>Fresh transfer or freezing for future use</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-snowflake"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 6: Embryo Freezing (Vitrification)</h3>
+                                <ul>
+                                    <li>High-quality embryos can be frozen for future use</li>
+                                    <li>Vitrification process prevents ice crystal formation</li>
+                                    <li>Frozen embryos can be stored for many years</li>
+                                    <li>Allows for multiple transfer attempts from one retrieval cycle</li>
+                                    <li>Reduces risk of ovarian hyperstimulation syndrome</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-baby"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 7: Embryo Transfer</h3>
+                                <ul>
+                                    <li>Uterus prepared with hormones</li>
+                                    <li>Painless procedure without sedation</li>
+                                    <li>Ultrasound-guided catheter placement</li>
+                                    <li>Usually 1-2 embryos transferred</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                            <div class="timeline-icon"><i class="fas fa-heartbeat"></i></div>
+                            <div class="timeline-content">
+                                <h3>Step 8: Luteal Phase Support</h3>
+                                <ul>
+                                    <li>Progesterone supplementation</li>
+                                    <li>Brief rest, avoiding strenuous activity</li>
+                                    <li>Beta-hCG test 10-14 days after transfer</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- LAB IMAGE -->
+            <!-- <div class="image-section">
+                <img src="images/sss2.2.webp" alt="Fertility laboratory with advanced equipment" class="responsive-image">
+                <p class="image-caption">Our advanced laboratory facilities ensure optimal embryo development</p>
+            </div> -->
+
+            <!-- ADDITIONAL IVF IMAGE -->
+            <!-- <div class="image-section">
+                <img src="./images/ss2.3.jpg" alt="IVF procedure and laboratory equipment" class="responsive-image">
+                <p class="image-caption">Advanced IVF technology and procedures</p>
+            </div> -->
+
+            <!-- TREATMENT PROTOCOLS -->
+            <div class="content-block">
+                <h2>Treatment Protocols</h2>
+                <div class="protocols-grid">
+                    <div class="protocol-card">
+                        <div class="protocol-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3>Long Protocol</h3>
+                        <p>Controlled ovarian stimulation with down-regulation</p>
+                    </div>
+                    
+                    <div class="protocol-card">
+                        <div class="protocol-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Antagonist Protocol</h3>
+                        <p>Shorter and more flexible for certain patients</p>
+                    </div>
+                    
+                    <div class="protocol-card">
+                        <div class="protocol-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Mild Stimulation</h3>
+                        <p>Lower dose medications for women with low ovarian reserve</p>
+                    </div>
+                    
+                    <div class="protocol-card">
+                        <div class="protocol-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Natural Cycle IVF</h3>
+                        <p>IVF without strong stimulation, using natural ovulation</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RISKS & CONSIDERATIONS -->
+            <div class="content-block">
+                <h2>Risks &amp; Considerations</h2>
+                <div class="risks-section">
+                    <div class="risks-grid">
+                        <div class="risk-item">
+                            <h3>Multiple Pregnancy</h3>
+                            <p>Risk of twins/triplets (reduced with single embryo transfer)</p>
+                        </div>
+                        
+                        <div class="risk-item">
+                            <h3>OHSS</h3>
+                            <p>Ovarian Hyperstimulation Syndrome (rare with modern protocols)</p>
+                        </div>
+                        
+                        <div class="risk-item">
+                            <h3>Procedure Risks</h3>
+                            <p>Minimal risks during egg retrieval (bleeding, infection)</p>
+                        </div>
+                        
+                        <div class="risk-item">
+                            <h3>Emotional Stress</h3>
+                            <p>Psychological impact of treatment process</p>
+                        </div>
+                        
+                        <div class="risk-item">
+                            <h3>Financial Considerations</h3>
+                            <p>Cost of treatment and medications</p>
+                        </div>
+                        
+                        <div class="risk-item">
+                            <h3>Success Rates</h3>
+                            <p>Not every cycle results in pregnancy</p>
+                        </div>
+                    </div>
+                    
+                    <p><strong>Note:</strong> Most side effects are temporary and resolve shortly after treatment completion. Symptoms may include bloating, breast tenderness, mood swings, and mild discomfort.</p>
+                </div>
+            </div>
+
+            <!-- SUCCESS RATES -->
+            <div class="content-block">
+                <h2>Success Rates</h2>
+                <p>Success depends on age, egg/sperm quality, and health conditions. Average success rates are 40-50% for women under 35, with reduced chances as age increases.</p>
+                <p><strong>Note:</strong> This is purely dependent on the probability of many variables involved in the treatment.</p>
+            </div>
+
+            <!-- TREATMENT PREPARATION -->
+            <div class="content-block">
+                <h2>Treatment Preparation</h2>
+                <ul>
+                    <li>Blood investigations and treatment of any medical abnormalities</li>
+                    <li>Serology reports and hormonal treatment for ovarian cysts if needed</li>
+                    <li>Healthy diet and lifestyle changes</li>
+                    <li>Managing weight, stress, and sleep patterns</li>
+                    <li>Avoiding smoking and alcohol</li>
+                    <li>Taking prenatal vitamins (folic acid, vitamin D, antioxidants)</li>
+                    <li>High-protein diet to support egg quality</li>
+                </ul>
+            </div>
+
+            <!-- SUCCESS STORY IMAGE -->
+            <!-- <div class="image-section">
+                <img src="https://media.istockphoto.com/id/2031340689/photo/little-baby-boy-enjoying-in-mothers-touch.jpg?s=612x612&w=0&k=20&c=ra_HbS6NEMgVqQl1SsNM4tJzRA_khoOmf1-zctTfklQ=" alt="Happy couple with newborn baby" class="responsive-image">
+                <p class="image-caption">Our success stories bring joy to families every day</p>
+            </div> -->
+
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Begin Your Journey to Parenthood</h2>
+            <p>Our personalized IVF and ICSI treatments are designed to give you the best possible chance of success. Schedule a consultation with our fertility experts today.</p>
+            <br>
+            <a href="index#contact" class="btn cta-btn">Schedule Your Consultation Now</a>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const steps = document.querySelectorAll('.timeline-step');
+            steps.forEach((step, index) => {
+                step.style.opacity = 0;
+                step.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    step.style.transition = 'all 0.6s ease';
+                    step.style.opacity = 1;
+                    step.style.transform = 'translateY(0)';
+                }, 200 * index);
+            });
+        });
+    </script>
+
+
+</body></html>

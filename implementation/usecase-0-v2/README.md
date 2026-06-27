@@ -118,7 +118,7 @@ GoogleSheetsStore appended and read back an AuditLogs row from the live Sheet
 
 
 ## Implemented Backend Unit: Agent Layer
-The reusable agent layer is now implemented locally:
+The reusable agent layer is now implemented and verified:
 
 ```text
 support_orchestrator
@@ -129,19 +129,62 @@ escalation_agent
 FAQ, ticket, user, escalation, memory, and audit tools
 ```
 
-Verification completed locally:
+Verification completed:
 
 ```text
-agent routing tests passed
-ticket lifecycle tests passed
-escalation tests passed
-memory/audit tests passed
+agent routing tests passed locally
+agent smoke passed on Cloud Shell
 ```
 
-Next verification target on Cloud Shell:
+Cloud Shell smoke command:
 
 ```bash
 PYTHONPATH=. python scripts/smoke_agent_local.py
+```
+
+## Implemented Backend Unit: RAG Corpus + Hybrid Retrieval
+The usecase-1 website corpus is now prepared with a RABBIT-style pipeline:
+
+```text
+drmadhupatil.com
+-> rendered raw HTML
+-> structured page JSON
+-> clean JSON
+-> clean text
+-> RAG-ready documents
+-> approved JSONL corpus
+-> quality reports + corpus manifest
+```
+
+Approved corpus input:
+
+```text
+rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl
+```
+
+Retrieval method:
+
+```text
+BM25-style keyword retrieval with 1-gram, 2-gram, and 3-gram terms
++ vector retrieval with a FAISS adapter when faiss is installed
++ pure-Python vector fallback for local tests
++ metadata filtering
++ hybrid score fusion
++ confidence threshold
+```
+
+Verification completed locally:
+
+```text
+Dr. Madhu corpus loads: 8 approved documents
+hybrid retrieval smoke passes
+full test suite: 14 passed
+```
+
+Smoke command:
+
+```bash
+PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
 ```
 
 ## Usecase Mapping
@@ -167,7 +210,9 @@ Current order:
 ```text
 backend foundation - done
 storage layer - verified locally and on GCP
-agent layer - implemented locally, pending Cloud Shell smoke
+agent layer - verified locally and on Cloud Shell
+RAG corpus - generated and approved for drmadhupatil.com
+hybrid retrieval - implemented and tested
 Cloud Run / Vertex deployment
 usecase-1 specialization
 ```

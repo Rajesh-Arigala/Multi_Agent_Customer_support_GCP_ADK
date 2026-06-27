@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "00_Homepage",
+  "url": "https://drmadhupatil.com/",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "ROOT",
+  "title": "Dr. Madhu Patil | Gynecologist & IVF Specialist",
+  "characters_content": 11741,
+  "words_content": 1667,
+  "characters_rag_text": 21511,
+  "words_rag_text": 3053,
+  "headings_count": 58,
+  "paragraphs_count": 65,
+  "links_count": 20,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/00_Homepage.html",
+    "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/00_Homepage_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/00_Homepage_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/00_Homepage_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/00_Homepage_rag.txt",
+    "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/00_Homepage_quality_report.json"
+  }
+}

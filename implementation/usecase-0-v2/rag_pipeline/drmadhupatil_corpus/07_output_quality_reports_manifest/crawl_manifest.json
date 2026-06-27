@@ -1,0 +1,657 @@
+{
+  "version": "v4_site_crawler",
+  "run_started_at": "2026-06-26T21:05:56.720024+00:00",
+  "run_finished_at": "2026-06-26T21:06:59.511613+00:00",
+  "config": {
+    "seed_url": "https://drmadhupatil.com/",
+    "seed_urls": [
+      "https://drmadhupatil.com/"
+    ],
+    "seed_domain": "drmadhupatil.com",
+    "max_pages": 120,
+    "max_depth": 6,
+    "delay_seconds": 0.75,
+    "timeout_ms": 60000,
+    "same_domain_only": true
+  },
+  "counts": {
+    "pages_crawled": 14,
+    "pages_failed": 0,
+    "urls_skipped": 6,
+    "internal_links_discovered": 14,
+    "urls_remaining_in_queue": 0
+  },
+  "hierarchy_table": [
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "ROOT",
+      "page_id": "00_Homepage",
+      "title": "Dr. Madhu Patil | Gynecologist & IVF Specialist",
+      "url": "https://drmadhupatil.com/"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "blog",
+      "title": "Blog | Coming Soon",
+      "url": "https://drmadhupatil.com/blog"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service1",
+      "title": "Fertility Assessment - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service1"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service1_html",
+      "title": "Fertility Assessment - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service1.html"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service2",
+      "title": "IVF & ICSI Treatments - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service2"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service2_html",
+      "title": "IVF & ICSI Treatments - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service2.html"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service3",
+      "title": "IUI Treatment - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service3"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service3_html",
+      "title": "IUI Treatment - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service3.html"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service4",
+      "title": "Fertility Preservation - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service4"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service4_html",
+      "title": "Fertility Preservation - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service4.html"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service5",
+      "title": "Endometriosis & PCOS - Advanced Fertility Care",
+      "url": "https://drmadhupatil.com/service5"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service5_html",
+      "title": "Endometriosis & PCOS - Advanced Fertility Care",
+      "url": "https://drmadhupatil.com/service5.html"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service6",
+      "title": "Immunotherapy in Infertility - Advanced Fertility Care",
+      "url": "https://drmadhupatil.com/service6"
+    },
+    {
+      "depth": 1,
+      "discovered_parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "page_id": "service6_html",
+      "title": "Immunotherapy in Infertility - Advanced Fertility Care",
+      "url": "https://drmadhupatil.com/service6.html"
+    }
+  ],
+  "crawled_pages": [
+    {
+      "version": "v4_site_crawler",
+      "page_id": "00_Homepage",
+      "url": "https://drmadhupatil.com/",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "ROOT",
+      "title": "Dr. Madhu Patil | Gynecologist & IVF Specialist",
+      "characters_content": 11741,
+      "words_content": 1667,
+      "characters_rag_text": 21511,
+      "words_rag_text": 3053,
+      "headings_count": 58,
+      "paragraphs_count": 65,
+      "links_count": 20,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/00_Homepage.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/00_Homepage_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/00_Homepage_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/00_Homepage_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/00_Homepage_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/00_Homepage_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service1",
+      "url": "https://drmadhupatil.com/service1",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Fertility Assessment - Advanced Fertility Solutions",
+      "characters_content": 4695,
+      "words_content": 696,
+      "characters_rag_text": 8070,
+      "words_rag_text": 1208,
+      "headings_count": 29,
+      "paragraphs_count": 19,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service1.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service1_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service1_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service1_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service1_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service1_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service2",
+      "url": "https://drmadhupatil.com/service2",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "IVF & ICSI Treatments - Advanced Fertility Solutions",
+      "characters_content": 4617,
+      "words_content": 646,
+      "characters_rag_text": 7858,
+      "words_rag_text": 1120,
+      "headings_count": 35,
+      "paragraphs_count": 24,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service2.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service2_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service2_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service2_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service2_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service2_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service3",
+      "url": "https://drmadhupatil.com/service3",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "IUI Treatment - Advanced Fertility Solutions",
+      "characters_content": 4487,
+      "words_content": 644,
+      "characters_rag_text": 7967,
+      "words_rag_text": 1159,
+      "headings_count": 35,
+      "paragraphs_count": 28,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service3.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service3_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service3_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service3_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service3_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service3_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service4",
+      "url": "https://drmadhupatil.com/service4",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Fertility Preservation - Advanced Fertility Solutions",
+      "characters_content": 4430,
+      "words_content": 622,
+      "characters_rag_text": 7267,
+      "words_rag_text": 1046,
+      "headings_count": 19,
+      "paragraphs_count": 14,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service4.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service4_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service4_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service4_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service4_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service4_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service5",
+      "url": "https://drmadhupatil.com/service5",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Endometriosis & PCOS - Advanced Fertility Care",
+      "characters_content": 5408,
+      "words_content": 809,
+      "characters_rag_text": 9854,
+      "words_rag_text": 1486,
+      "headings_count": 27,
+      "paragraphs_count": 35,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service5.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service5_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service5_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service5_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service5_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service5_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service6",
+      "url": "https://drmadhupatil.com/service6",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Immunotherapy in Infertility - Advanced Fertility Care",
+      "characters_content": 4828,
+      "words_content": 674,
+      "characters_rag_text": 8988,
+      "words_rag_text": 1263,
+      "headings_count": 29,
+      "paragraphs_count": 35,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service6.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service6_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service6_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service6_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service6_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service6_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "blog",
+      "url": "https://drmadhupatil.com/blog",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Blog | Coming Soon",
+      "characters_content": 327,
+      "words_content": 54,
+      "characters_rag_text": 575,
+      "words_rag_text": 89,
+      "headings_count": 1,
+      "paragraphs_count": 1,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/blog.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/blog_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/blog_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/blog_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/blog_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/blog_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service1_html",
+      "url": "https://drmadhupatil.com/service1.html",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Fertility Assessment - Advanced Fertility Solutions",
+      "characters_content": 4695,
+      "words_content": 696,
+      "characters_rag_text": 8075,
+      "words_rag_text": 1208,
+      "headings_count": 29,
+      "paragraphs_count": 19,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service1_html.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service1_html_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service1_html_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service1_html_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service1_html_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service1_html_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service2_html",
+      "url": "https://drmadhupatil.com/service2.html",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "IVF & ICSI Treatments - Advanced Fertility Solutions",
+      "characters_content": 4617,
+      "words_content": 646,
+      "characters_rag_text": 7863,
+      "words_rag_text": 1120,
+      "headings_count": 35,
+      "paragraphs_count": 24,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service2_html.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service2_html_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service2_html_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service2_html_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service2_html_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service2_html_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service3_html",
+      "url": "https://drmadhupatil.com/service3.html",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "IUI Treatment - Advanced Fertility Solutions",
+      "characters_content": 4487,
+      "words_content": 644,
+      "characters_rag_text": 7972,
+      "words_rag_text": 1159,
+      "headings_count": 35,
+      "paragraphs_count": 28,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service3_html.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service3_html_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service3_html_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service3_html_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service3_html_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service3_html_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service4_html",
+      "url": "https://drmadhupatil.com/service4.html",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Fertility Preservation - Advanced Fertility Solutions",
+      "characters_content": 4430,
+      "words_content": 622,
+      "characters_rag_text": 7272,
+      "words_rag_text": 1046,
+      "headings_count": 19,
+      "paragraphs_count": 14,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service4_html.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service4_html_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service4_html_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service4_html_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service4_html_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service4_html_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service5_html",
+      "url": "https://drmadhupatil.com/service5.html",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Endometriosis & PCOS - Advanced Fertility Care",
+      "characters_content": 5408,
+      "words_content": 809,
+      "characters_rag_text": 9859,
+      "words_rag_text": 1486,
+      "headings_count": 27,
+      "paragraphs_count": 35,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service5_html.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service5_html_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service5_html_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service5_html_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service5_html_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service5_html_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "service6_html",
+      "url": "https://drmadhupatil.com/service6.html",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/",
+      "parent_page_id": "00_Homepage",
+      "logical_parent_page_id": "00_Homepage",
+      "title": "Immunotherapy in Infertility - Advanced Fertility Care",
+      "characters_content": 4828,
+      "words_content": 674,
+      "characters_rag_text": 8993,
+      "words_rag_text": 1263,
+      "headings_count": 29,
+      "paragraphs_count": 35,
+      "links_count": 1,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service6_html.html",
+        "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service6_html_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service6_html_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service6_html_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service6_html_rag.txt",
+        "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service6_html_quality_report.json"
+      }
+    }
+  ],
+  "failed_pages": [],
+  "skipped_urls": [
+    {
+      "url": "https://wa.me/917975535352",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "mailto:madhupatil3456@gmail.com",
+      "reason": "skipped_scheme:mailto",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://www.facebook.com/share/1BrcePZiWs?mibextid=wwXIfr",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://www.linkedin.com/in/drmadhupatil",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://www.instagram.com/dr_madhupatil?igsh=dGFkZ3Q4MTBzOWhx",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://leafletjs.com/",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    }
+  ],
+  "discovered_internal_links": [
+    "https://drmadhupatil.com/",
+    "https://drmadhupatil.com/blog",
+    "https://drmadhupatil.com/service1",
+    "https://drmadhupatil.com/service1.html",
+    "https://drmadhupatil.com/service2",
+    "https://drmadhupatil.com/service2.html",
+    "https://drmadhupatil.com/service3",
+    "https://drmadhupatil.com/service3.html",
+    "https://drmadhupatil.com/service4",
+    "https://drmadhupatil.com/service4.html",
+    "https://drmadhupatil.com/service5",
+    "https://drmadhupatil.com/service5.html",
+    "https://drmadhupatil.com/service6",
+    "https://drmadhupatil.com/service6.html"
+  ]
+}

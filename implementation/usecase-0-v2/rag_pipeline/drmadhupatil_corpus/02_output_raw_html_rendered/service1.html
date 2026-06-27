@@ -1,0 +1,600 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fertility Assessment - Advanced Fertility Solutions</title>
+    <link rel="icon" type="image/png" href="/images/logo.webp">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root {
+            --mustard: #D4A017;
+            --mustard-dark: #B38B12;
+            --mustard-light: #FFD700;
+            --mustard-pale: #FFEEAD;
+            --mustard-gradient: linear-gradient(135deg, #FFD700 0%, #D4A017 50%, #B38B12 100%);
+
+            --accent: #5D8A7F;
+            --accent-dark: #3A5A5F;
+
+            --dark: #333333;
+            --light: #FFFFFF;
+            --gray: #F8F8F8;
+            --gray-dark: #777777;
+
+            --shadow: 0 5px 15px rgba(212, 160, 23, 0.15);
+        }
+
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            color: var(--dark);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--mustard-dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: var(--mustard);
+            margin: 15px auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--mustard);
+            color: var(--light);
+            border: 2px solid var(--mustard);
+        }
+
+        .btn-primary:hover {
+            background: var(--mustard-dark);
+            border-color: var(--mustard-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 160, 23, 0.3);
+        }
+
+        /* ===== SERVICE HERO SECTION ===== */
+        .service-hero {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('/images/service1.webp') no-repeat center center/cover;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .service-hero h1 {
+            font-size: 3rem;
+            color: var(--mustard-dark);
+            margin-bottom: 20px;
+        }
+
+        .service-hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--dark);
+        }
+
+        /* ===== CONTENT SECTIONS ===== */
+        .content-block {
+            margin-bottom: 60px;
+        }
+
+        .content-block h2 {
+            font-size: 2rem;
+            color: var(--mustard-dark);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--mustard-pale);
+        }
+
+        .content-block h3 {
+            color: var(--mustard-dark);
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .content-block p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .content-block ul {
+            list-style-type: none;
+            margin-bottom: 20px;
+        }
+
+        .content-block ul li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .content-block ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--mustard);
+            font-weight: bold;
+        }
+
+        /* ===== TESTING SECTIONS ===== */
+        .testing-section {
+            background-color: var(--mustard-pale);
+            padding: 60px 0;
+        }
+
+        .testing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .testing-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .testing-card-header {
+            padding: 25px;
+            text-align: center;
+            color: var(--light);
+            background: var(--mustard);
+        }
+
+        .testing-card-content {
+            padding: 25px;
+        }
+
+        /* ===== IMAGE SECTIONS ===== */
+        .image-section {
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .image-section img {
+            max-width: 70%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .image-section p {
+            margin-top: 15px;
+            font-style: italic;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section {
+            background-color: var(--mustard-pale);
+            padding: 60px 0;
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+        }
+
+        .timeline-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .timeline-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--mustard);
+            color: var(--light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            flex: 1;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: var(--mustard-gradient);
+            text-align: center;
+            padding: 80px 0;
+            color: var(--light);
+        }
+
+        .cta-btn {
+            background: var(--light);
+            color: var(--mustard-dark);
+            font-size: 1.1rem;
+            padding: 15px 40px;
+        }
+
+        .cta-btn:hover {
+            background: var(--mustard-pale);
+        }
+
+        /* ===== RESPONSIVE STYLES ===== */
+        @media (max-width: 992px) {
+            .section {
+                padding: 60px 0;
+            }
+            
+            .service-hero {
+                padding: 80px 0 60px;
+            }
+            
+            .service-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testing-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-step {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .service-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .service-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .content-block h2 {
+                font-size: 1.6rem;
+            }
+            
+            .timeline-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .section {
+                padding: 40px 0;
+            }
+            
+            .service-hero {
+                padding: 60px 0 40px;
+            }
+            
+            .testing-card-header,
+            .testing-card-content {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+            }
+            
+            .cta-section {
+                padding: 60px 0;
+            }
+        }
+
+        /* ===== IMAGE RESPONSIVE CLASSES ===== */
+        .responsive-img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .img-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HERO -->
+    <section class="service-hero">
+        <div class="container">
+            <h1>Fertility Assessment</h1>
+            <p>Basic tests to evaluate the reproductive health of individuals and couples trying to conceive.</p>
+            <a href="index#contact" class="btn btn-primary">Schedule Your Assessment</a>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <section class="section service-content">
+        <div class="container">
+
+            <!-- INTRO -->
+            <div class="content-block">
+                <h2>Introduction</h2>
+                <p>An infertility evaluation includes exams and tests to try to find the reason why you and your partner aren't yet pregnant. It is important to understand the overall well being of the couple, the status of eggs or ovaries, uterus, fallopian tubes and sperm test.</p>
+            </div>
+
+            <!-- WHY IMPORTANT -->
+            <div class="content-block">
+                <h2>Why Fertility Assessment is Important</h2>
+                <ul>
+                    <li>Detects underlying causes of infertility early</li>
+                    <li>Helps tailor the most suitable fertility treatment plan</li>
+                    <li>Reduces time to conception with accurate diagnosis</li>
+                    <li>Provides reassurance and clarity to couples planning pregnancy</li>
+                </ul>
+            </div>
+
+            <!-- TESTING SECTIONS -->
+            <div class="content-block">
+                <h2>Comprehensive Fertility Testing</h2>
+                <div class="testing-section">
+                    <div class="container">
+                        <div class="testing-cards">
+
+                            <div class="testing-card">
+                                <div class="testing-card-header">
+                                    <h3 style="color: white;">For Women: Female Fertility Testing</h3>
+                                </div>
+                                <div class="testing-card-content">
+                                    <h3>1. Hormone Testing</h3>
+                                    <p>Blood tests check hormone levels that control egg growth and ovulation. This helps to see if eggs are being produced normally. (Hormones - FSH, LH, E2 and P4 LEVELS)</p>
+                                    
+                                    <h3>2. Ovarian Reserve Test</h3>
+                                    <p>Special hormone tests, like Anti-Mullerian Hormone (AMH), shows the egg reserve or egg supply of your body.</p>
+                                    
+                                    <h3>3. Ultrasound Examination</h3>
+                                    <p>A small ultrasound probe inserted into the vagina to see ovaries and uterus. Ultrasound looks for any abnormal growth in uterus or cyst in ovaries. This helps check the number of eggs, the condition of the uterus, and looks for any growths.</p>
+                                    
+                                    <h3>4. Fallopian Tube Check</h3>
+                                    <p>Tests like an X-ray with dye (HSG) or injecting normal saline under USG guidance (SIS) to see if the tubes are open. To test if eggs and sperm can meet and fertilise.</p>
+                                    
+                                    <h3>5. Other Tests</h3>
+                                    <p>Thyroid hormone test, Rubella IGG, prolactin levels, HbA1C.</p>
+                                    
+                                    <p><strong>Note:</strong> You might not require all of these tests and procedures. Some can be done based on symptoms, results of previous tests and treatment history.</p>
+                                </div>
+                            </div>
+
+                            <div class="testing-card">
+                                <div class="testing-card-header">
+                                    <h3 style="color: white;">For Men: Male Fertility Testing</h3>
+                                </div>
+                                <div class="testing-card-content">
+                                    <h3>1. Semen Analysis</h3>
+                                    <p>Sample of semen is tested for number, shape and movement of sperms to assess male fertility.</p>
+                                    
+                                    <h3>2. Hormone Blood Tests</h3>
+                                    <p>Sometimes blood tests are done to check hormones that affect sperm production.</p>
+                                    
+                                    <h3>3. Additional Tests</h3>
+                                    <p>DFI (DNA fragmentation index) and Scrotal ultrasound and doppler study.</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADVANCED TESTS -->
+            <div class="content-block">
+                <h2>Advanced Tests</h2>
+                <h3>3D or High-Resolution Ultrasound</h3>
+                <p>Detailed imaging of ovaries, uterus, and pelvic area to detect abnormalities like fibroids, cysts, or uterine malformations.</p>
+                
+                <h3>Genetic and Immunological Screening</h3>
+                <p>Genetic, Immunological, and Microbiome Studies will be done to assess genetic conditions or immunity conditions affecting fertility.</p>
+                
+                <h3>Endometrial Tests (ERA/EMMA and ALICE)</h3>
+                <p>To assess endometrial health and receptivity.</p>
+                
+                <h3>Hysteroscopy</h3>
+                <p>A direct visual examination using a camera to look for polyps, adhesions, or other uterine abnormalities affecting the lining.</p>
+            </div>
+
+            <!-- WHAT TO EXPECT -->
+            <div class="content-block">
+                <h2>What to Expect During Fertility Assessment</h2>
+                <div class="timeline">
+
+                    <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                        <div class="timeline-icon"><i class="fas fa-user-md"></i></div>
+                        <div class="timeline-content">
+                            <h3>First Visit</h3>
+                            <ul>
+                                <li>Initial History taking – Detailed gynecological, medical and lifestyle history</li>
+                                <li>Physical examination in required cases</li>
+                                <li>Tests Done – Blood tests, ultrasounds, and semen analysis</li>
+                                <li>Ultrasound examination to check for abnormal growths in uterus or cysts in ovaries</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-step" style="opacity: 1; transform: translateY(0px); transition: 0.6s;">
+                        <div class="timeline-icon"><i class="fas fa-clipboard-check"></i></div>
+                        <div class="timeline-content">
+                            <h3>Follow-up</h3>
+                            <ul>
+                                <li>Results Review – Explanation and discussion of the reports</li>
+                                <li>Personalised treatment plan – Next steps (natural conception, IUI, IVF/ICSI, or other treatments)</li>
+                                <li>Recommendations based on ultrasound findings and other test results</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- NEW ULTRASOUND IMAGE SECTION -->
+            <div class="image-section">
+                <div class="img-container">
+                    <img src="./images/ss1.3.jpeg" alt="Advanced Ultrasound Technology for Fertility Assessment" class="responsive-img" loading="lazy">
+                    <p>Our state-of-the-art ultrasound technology provides detailed imaging for accurate fertility assessment</p>
+                </div>
+            </div>
+
+            <!-- WHO SHOULD CONSIDER -->
+            <div class="content-block">
+                <h2>Who Should Consider Fertility Assessment?</h2>
+                
+                <h3>Couples</h3>
+                <p>Couples who have not gotten pregnant after 1 year of having regular sexual intercourse without using birth control or contraception.</p>
+                
+                <h3>Women</h3>
+                <ul>
+                    <li>Women over 35 years of age, recommended to get tested after 6 months of trying</li>
+                    <li>History of irregular or absent periods, severe period pain</li>
+                    <li>Patients with PCOS, endometriosis, or previous pelvic surgeries</li>
+                    <li>Previous abortions</li>
+                </ul>
+                
+                <h3>Men</h3>
+                <ul>
+                    <li>Men with ejaculatory dysfunction or low libido</li>
+                    <li>Men with history of injury or medicines harmful to sperm or use of steroids</li>
+                </ul>
+                
+                <h3>Life &amp; Lifestyle – Recent Advances</h3>
+                <ul>
+                    <li>Women wanting to delay pregnancy</li>
+                    <li>Egg or sperm freezing</li>
+                    <li>Those needing cancer treatment</li>
+                    <li>History of genetic issues in family or previous pregnancies</li>
+                </ul>
+            </div>
+
+            <!-- COUPLE IMAGE -->
+            <div class="image-section">
+                <div class="img-container">
+                    <img src="./images/sss1.1.webp" alt="Happy couple discussing with fertility specialist" class="responsive-img" loading="lazy">
+                    <p>Our compassionate team provides personalized fertility assessments</p>
+                </div>
+            </div>
+
+            <!-- BENEFITS -->
+            <div class="content-block">
+                <h2>Benefits of Fertility Assessment</h2>
+                <ul>
+                    <li>Predicts root causes and increases the chance of a successful pregnancy</li>
+                    <li>Early detection of reproductive issues including uterine abnormalities and ovarian cysts</li>
+                    <li>Provides tailored treatment options</li>
+                    <li>Reduces emotional stress through clarity of treatment</li>
+                    <li>Saves a lot of time and money</li>
+                </ul>
+            </div>
+
+            <!-- MOTHER AND BABY IMAGE -->
+            <!-- <div class="image-section">
+                <div class="img-container">
+                    <img src="./images/sss1.2.webp" alt="Mother and baby playing together in garden" class="responsive-img">
+                    <p>Our goal is to help you achieve your dream of parenthood</p>
+                </div>
+            </div> -->
+
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Take the First Step Towards Understanding Your Fertility</h2>
+            <p>Our comprehensive fertility assessment can provide the answers you need to move forward with confidence. Schedule your consultation with our fertility experts today.</p>
+            <br>
+            <a href="index#contact" class="btn cta-btn">Schedule Your Assessment Now</a>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Timeline animation
+            const steps = document.querySelectorAll('.timeline-step');
+            steps.forEach((step, index) => {
+                step.style.opacity = 0;
+                step.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    step.style.transition = 'all 0.6s ease';
+                    step.style.opacity = 1;
+                    step.style.transform = 'translateY(0)';
+                }, 200 * index);
+            });
+
+            // Image lazy loading enhancement
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                // Ensure all images are responsive
+                img.classList.add('responsive-img');
+                
+                // Add loading attribute for better performance
+                img.setAttribute('loading', 'lazy');
+            });
+        });
+    </script>
+
+
+</body></html>

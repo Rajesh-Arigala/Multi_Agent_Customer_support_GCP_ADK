@@ -37,6 +37,9 @@ GoogleSheetsStore implementation
 CsvStore local mirror
 local storage tests
 Sheets smoke script
+agent layer
+RABBIT-style drmadhupatil.com corpus
+BM25 + vector hybrid retrieval layer
 ```
 
 Not completed yet:
@@ -44,8 +47,8 @@ Not completed yet:
 ```text
 Vertex AI Agent Engine deployment
 Cloud Run backend wrapper
-retrieval/index service
 production API endpoints
+managed vector search or production embedding service
 ```
 
 ## GCP Project

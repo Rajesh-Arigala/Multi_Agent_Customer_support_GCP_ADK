@@ -1,0 +1,374 @@
+# Layer 4 Execution Log - RAG Corpus And Hybrid Retrieval
+
+## Purpose
+Record the completed Layer 4 work for `usecase-0-v2`.
+
+Layer 4 prepares the trusted local knowledge base and retrieval path before the agent falls back to `web_search_agent`.
+
+## Decision
+Use a RABBIT-style corpus pipeline plus hybrid retrieval:
+
+```text
+RABBIT website corpus pipeline
++ BM25-style keyword retrieval with 1-gram, 2-gram, and 3-gram terms
++ vector retrieval with FAISS adapter
++ pure-Python vector fallback
++ metadata filtering
++ hybrid score fusion
++ confidence threshold
+```
+
+FAISS is optional at runtime. If `faiss-cpu` is installed, the vector retriever uses FAISS. If not, it falls back to a deterministic pure-Python vector scorer so local tests still run.
+
+## Step 1 - Created Corpus Workspace
+Created the doctor-site corpus workspace:
+
+```text
+rag_pipeline/drmadhupatil_corpus/
+```
+
+Copied the proven RABBIT crawler into this workspace:
+
+```text
+rag_pipeline/drmadhupatil_corpus/crawler_v4_site_crawler.py
+```
+
+Added crawl config:
+
+```text
+rag_pipeline/drmadhupatil_corpus/01_input_seed_and_config/drmadhupatil_crawl_config.json
+```
+
+Configured target:
+
+```text
+seed_url: https://drmadhupatil.com
+same_domain_only: true
+max_pages: 120
+max_depth: 6
+```
+
+## Step 2 - Installed Temporary Crawler Runtime
+Created a temporary local crawler environment outside the repo:
+
+```text
+/private/tmp/drmadhupatil-crawl-venv
+```
+
+Installed crawler dependencies:
+
+```text
+beautifulsoup4
+ftfy
+lxml
+playwright
+```
+
+Installed Playwright Chromium.
+
+## Step 3 - Fixed Render Wait Strategy
+The first crawl reached `drmadhupatil.com`, but timed out on Playwright `networkidle`.
+
+Reason:
+
+```text
+The site keeps background network requests open, so networkidle is not reliable.
+```
+
+Adjusted only the project-local crawler copy:
+
+```text
+wait_until="networkidle"
+-> wait_until="domcontentloaded"
+```
+
+The original RABBIT project was not modified.
+
+## Step 4 - Ran Full Site Crawl
+Executed the crawler against:
+
+```text
+https://drmadhupatil.com
+```
+
+Generated staged outputs:
+
+```text
+02_output_raw_html_rendered/
+03_output_structured_json/
+04_output_clean_json/
+05_output_clean_text/
+06_output_rag_documents/
+07_output_quality_reports_manifest/
+```
+
+Crawl result:
+
+```text
+pages crawled: 14
+pages failed: 0
+urls skipped: 6
+internal links discovered: 14
+```
+
+## Step 5 - Prepared Approved RAG Corpus
+Detected duplicate URL variants:
+
+```text
+/service1 and /service1.html
+/service2 and /service2.html
+/service3 and /service3.html
+/service4 and /service4.html
+/service5 and /service5.html
+/service6 and /service6.html
+```
+
+Approved canonical documents:
+
+```text
+WEB-DRMADHU-001  homepage
+WEB-DRMADHU-002  service1 - Fertility Assessment
+WEB-DRMADHU-003  service2 - IVF & ICSI
+WEB-DRMADHU-004  service3 - IUI
+WEB-DRMADHU-005  service4 - Fertility Preservation
+WEB-DRMADHU-006  service5 - Endometriosis & PCOS
+WEB-DRMADHU-007  service6 - Immunotherapy in Infertility
+WEB-DRMADHU-008  blog
+```
+
+Created approved retrieval input:
+
+```text
+rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl
+```
+
+Created quality/report artifacts:
+
+```text
+rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/crawl_manifest.json
+rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/drmadhupatil_corpus_manifest.json
+rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/drmadhupatil_RAG_Readiness_Report.md
+```
+
+## Step 6 - Added Hybrid Retrieval Layer
+Added retrieval package:
+
+```text
+backend/retrieval/
+```
+
+Files:
+
+```text
+backend/retrieval/__init__.py
+backend/retrieval/models.py
+backend/retrieval/text.py
+backend/retrieval/loader.py
+backend/retrieval/keyword.py
+backend/retrieval/vector.py
+backend/retrieval/hybrid.py
+```
+
+Implemented:
+
+```text
+RetrievalDocument
+RetrievalResult
+JSONL corpus loader
+FAQ-row-to-document loader
+BM25-style keyword scorer with 1-gram, 2-gram, and 3-gram terms
+hash-based vector scorer
+FAISS adapter when faiss is installed
+metadata filters
+hybrid score fusion
+confidence threshold
+title-overlap boost
+```
+
+## Step 7 - Connected Retrieval To Agent Triage
+Updated:
+
+```text
+backend/tools/faq_tools.py
+```
+
+Behavior:
+
+```text
+1. If FAQ rows exist in storage, retrieve from FAQ rows.
+2. If no FAQ rows exist, retrieve from the approved website corpus.
+3. If best score passes threshold, return local answer.
+4. If no result passes threshold, allow orchestrator fallback to web_search_agent.
+```
+
+This keeps existing generic usecase-0 behavior while enabling usecase-1 website RAG.
+
+## Step 8 - Added Smoke And Tests
+Added smoke script:
+
+```text
+scripts/smoke_hybrid_retrieval.py
+```
+
+Added tests:
+
+```text
+tests/test_hybrid_retrieval.py
+```
+
+Added optional FAISS install file:
+
+```text
+requirements-retrieval.txt
+```
+
+## Step 9 - Verified Retrieval Behavior
+Smoke command:
+
+```bash
+PYTHONPATH=. python3 scripts/smoke_hybrid_retrieval.py
+```
+
+Observed local result:
+
+```text
+documents=8
+vector_backend=python
+IVF query -> WEB-DRMADHU-003 / service2
+PCOS and endometriosis query -> WEB-DRMADHU-006 / service5
+fertility preservation query -> WEB-DRMADHU-005 / service4
+```
+
+Note:
+
+```text
+vector_backend=python locally because FAISS was not installed in the local default Python.
+Cloud Shell should report vector_backend=faiss after installing requirements-retrieval.txt.
+```
+
+## Step 10 - Verified Regression Tests
+Created temporary test venv:
+
+```text
+/private/tmp/usecase0-v2-test-venv
+```
+
+Ran:
+
+```bash
+PYTHONPATH=. /private/tmp/usecase0-v2-test-venv/bin/python -m pytest -p no:cacheprovider
+```
+
+Result:
+
+```text
+14 passed
+```
+
+Covered:
+
+```text
+agent routing
+ticket lifecycle
+escalation
+memory/audit
+CSV store
+sheet schema
+RAG corpus loading
+hybrid retrieval
+metadata filtering
+FAQ retrieval compatibility
+```
+
+## Step 11 - Updated Documentation
+Updated:
+
+```text
+README.md
+CONSTRUCTION_STEPS.md
+GCP_FOUNDATION.md
+```
+
+Documented:
+
+```text
+RAG corpus path
+hybrid retrieval method
+smoke command
+test result
+Layer 4 status
+```
+
+## Step 12 - Added N-Gram Phrase Retrieval
+Added 1-gram, 2-gram, and 3-gram terms to BM25 keyword retrieval.
+
+Purpose:
+
+```text
+Improve phrase-sensitive matches such as:
+fertility preservation
+IVF ICSI treatment
+PCOS endometriosis
+immunotherapy infertility
+```
+
+Added helper:
+
+```text
+backend/retrieval/text.py -> tokenize_with_ngrams()
+```
+
+Updated:
+
+```text
+backend/retrieval/keyword.py
+tests/test_hybrid_retrieval.py
+```
+
+Verification after n-gram refinement:
+
+```text
+hybrid retrieval smoke passed
+14 tests passed
+```
+
+## Step 12 - Cleanliness Check
+Checked for unwanted local artifacts:
+
+```text
+.DS_Store
+__pycache__
+.pytest_cache
+```
+
+Result:
+
+```text
+none found under implementation/usecase-0-v2
+```
+
+## Cloud Shell Verification Commands
+After pushing and pulling in Cloud Shell:
+
+```bash
+cd ~/Multi_Agent_Customer_support_GCP_ADK/implementation/usecase-0-v2
+source ../.venv/bin/activate
+pip install -r requirements.txt
+pip install -r requirements-retrieval.txt
+PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Expected:
+
+```text
+vector_backend=faiss
+hybrid retrieval smoke passes
+14 tests pass
+```
+
+## Status
+```text
+Layer 4 complete locally.
+Pending Cloud Shell FAISS verification after git push/pull.
+```

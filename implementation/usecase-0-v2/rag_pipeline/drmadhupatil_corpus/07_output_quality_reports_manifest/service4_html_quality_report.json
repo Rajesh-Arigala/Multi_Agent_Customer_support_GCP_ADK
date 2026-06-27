@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "service4_html",
+  "url": "https://drmadhupatil.com/service4.html",
+  "depth": 1,
+  "parent_url": "https://drmadhupatil.com/",
+  "parent_page_id": "00_Homepage",
+  "logical_parent_page_id": "00_Homepage",
+  "title": "Fertility Preservation - Advanced Fertility Solutions",
+  "characters_content": 4430,
+  "words_content": 622,
+  "characters_rag_text": 7272,
+  "words_rag_text": 1046,
+  "headings_count": 19,
+  "paragraphs_count": 14,
+  "links_count": 1,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service4_html.html",
+    "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service4_html_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service4_html_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service4_html_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service4_html_rag.txt",
+    "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service4_html_quality_report.json"
+  }
+}

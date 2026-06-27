@@ -1,0 +1,159 @@
+{
+  "name": "drmadhupatil.com RAG-ready corpus",
+  "version": "v1",
+  "generated_at": "2026-06-26T21:10:01.056378+00:00",
+  "source_domain": "drmadhupatil.com",
+  "source_seed_url": "https://drmadhupatil.com/",
+  "pipeline": "RABBIT-style rendered website crawl to RAG-ready corpus",
+  "counts": {
+    "pages_crawled": 14,
+    "pages_failed": 0,
+    "raw_rag_documents": 14,
+    "approved_rag_documents": 8,
+    "duplicate_documents_excluded": 6,
+    "urls_skipped": 6
+  },
+  "approved_documents": [
+    {
+      "doc_id": "WEB-DRMADHU-001",
+      "page_id": "00_Homepage",
+      "title": "Dr. Madhu Patil | Gynecologist & IVF Specialist",
+      "url": "https://drmadhupatil.com/",
+      "word_count": 3053,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-001_00_Homepage_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-002",
+      "page_id": "service1",
+      "title": "Fertility Assessment - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service1",
+      "word_count": 1208,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-002_service1_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-003",
+      "page_id": "service2",
+      "title": "IVF & ICSI Treatments - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service2",
+      "word_count": 1120,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-003_service2_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-004",
+      "page_id": "service3",
+      "title": "IUI Treatment - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service3",
+      "word_count": 1159,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-004_service3_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-005",
+      "page_id": "service4",
+      "title": "Fertility Preservation - Advanced Fertility Solutions",
+      "url": "https://drmadhupatil.com/service4",
+      "word_count": 1046,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-005_service4_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-006",
+      "page_id": "service5",
+      "title": "Endometriosis & PCOS - Advanced Fertility Care",
+      "url": "https://drmadhupatil.com/service5",
+      "word_count": 1486,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-006_service5_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-007",
+      "page_id": "service6",
+      "title": "Immunotherapy in Infertility - Advanced Fertility Care",
+      "url": "https://drmadhupatil.com/service6",
+      "word_count": 1263,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-007_service6_rag.txt"
+    },
+    {
+      "doc_id": "WEB-DRMADHU-008",
+      "page_id": "blog",
+      "title": "Blog | Coming Soon",
+      "url": "https://drmadhupatil.com/blog",
+      "word_count": 89,
+      "ready_text_path": "06_output_rag_documents_ready/WEB-DRMADHU-008_blog_rag.txt"
+    }
+  ],
+  "excluded_duplicates": [
+    {
+      "page_id": "service1_html",
+      "url": "https://drmadhupatil.com/service1.html",
+      "canonical_url": "https://drmadhupatil.com/service1",
+      "reason": "duplicate_html_variant"
+    },
+    {
+      "page_id": "service2_html",
+      "url": "https://drmadhupatil.com/service2.html",
+      "canonical_url": "https://drmadhupatil.com/service2",
+      "reason": "duplicate_html_variant"
+    },
+    {
+      "page_id": "service3_html",
+      "url": "https://drmadhupatil.com/service3.html",
+      "canonical_url": "https://drmadhupatil.com/service3",
+      "reason": "duplicate_html_variant"
+    },
+    {
+      "page_id": "service4_html",
+      "url": "https://drmadhupatil.com/service4.html",
+      "canonical_url": "https://drmadhupatil.com/service4",
+      "reason": "duplicate_html_variant"
+    },
+    {
+      "page_id": "service5_html",
+      "url": "https://drmadhupatil.com/service5.html",
+      "canonical_url": "https://drmadhupatil.com/service5",
+      "reason": "duplicate_html_variant"
+    },
+    {
+      "page_id": "service6_html",
+      "url": "https://drmadhupatil.com/service6.html",
+      "canonical_url": "https://drmadhupatil.com/service6",
+      "reason": "duplicate_html_variant"
+    }
+  ],
+  "skipped_urls": [
+    {
+      "url": "https://wa.me/917975535352",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "mailto:madhupatil3456@gmail.com",
+      "reason": "skipped_scheme:mailto",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://www.facebook.com/share/1BrcePZiWs?mibextid=wwXIfr",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://www.linkedin.com/in/drmadhupatil",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://www.instagram.com/dr_madhupatil?igsh=dGFkZ3Q4MTBzOWhx",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    },
+    {
+      "url": "https://leafletjs.com/",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://drmadhupatil.com/"
+    }
+  ],
+  "retrieval_next_step": "Build BM25 + FAISS hybrid index from 06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl"
+}

@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "service2",
+  "url": "https://drmadhupatil.com/service2",
+  "depth": 1,
+  "parent_url": "https://drmadhupatil.com/",
+  "parent_page_id": "00_Homepage",
+  "logical_parent_page_id": "00_Homepage",
+  "title": "IVF & ICSI Treatments - Advanced Fertility Solutions",
+  "characters_content": 4617,
+  "words_content": 646,
+  "characters_rag_text": 7858,
+  "words_rag_text": 1120,
+  "headings_count": 35,
+  "paragraphs_count": 24,
+  "links_count": 1,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered/service2.html",
+    "structured_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/03_output_structured_json/service2_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/04_output_clean_json/service2_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/05_output_clean_text/service2_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents/service2_rag.txt",
+    "report": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_quality_reports_manifest/service2_quality_report.json"
+  }
+}

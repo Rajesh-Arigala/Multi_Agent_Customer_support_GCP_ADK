@@ -1,0 +1,13 @@
+{
+  "seed_url": "https://drmadhupatil.com",
+  "seed_urls": [
+    "https://drmadhupatil.com"
+  ],
+  "max_pages": 120,
+  "max_depth": 6,
+  "delay_seconds": 0.75,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

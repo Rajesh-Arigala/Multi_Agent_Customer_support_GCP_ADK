@@ -282,7 +282,7 @@ memory/audit tests pass
 Current result:
 
 ```text
-9 tests passed
+14 tests passed
 ```
 
 ### Cloud Shell Smoke Gate
@@ -302,7 +302,111 @@ escalation_agent - ...
 
 ### Status
 ```text
-agent layer implemented locally - pending Cloud Shell smoke
+agent layer verified locally and on Cloud Shell
+```
+
+## Layer 4 - RAG Corpus And Hybrid Retrieval
+
+### Goal
+Create a trusted local knowledge base before the agent uses web search.
+
+### Logic
+The agent should answer from owned content first. For usecase-1, the clinic website is the trusted source. Web search should only happen after local retrieval fails the confidence threshold.
+
+The selected retrieval method is hybrid:
+
+```text
+BM25-style keyword retrieval with 1-gram, 2-gram, and 3-gram terms
++ vector retrieval
++ metadata filtering
++ hybrid score fusion
++ confidence threshold
+```
+
+The vector retriever uses a FAISS adapter when `faiss` is installed and a pure-Python fallback for local tests. This keeps the baseline portable while preserving the FAISS path for production-like indexing.
+
+### Construction Steps
+1. Create a RABBIT-style corpus workspace:
+
+```text
+rag_pipeline/drmadhupatil_corpus/
+```
+
+2. Crawl `drmadhupatil.com` through the staged pipeline:
+
+```text
+01_input_seed_and_config
+02_output_raw_html_rendered
+03_output_structured_json
+04_output_clean_json
+05_output_clean_text
+06_output_rag_documents
+06_output_rag_documents_ready
+07_output_quality_reports_manifest
+```
+
+3. Approve canonical documents and exclude duplicate `.html` URL variants.
+
+4. Build retrieval modules:
+
+```text
+backend/retrieval/keyword.py
+backend/retrieval/vector.py
+backend/retrieval/hybrid.py
+backend/retrieval/loader.py
+```
+
+5. Connect `FaqTools` to the hybrid retriever before `web_search_agent` fallback.
+
+6. Add retrieval smoke and tests:
+
+```text
+scripts/smoke_hybrid_retrieval.py
+tests/test_hybrid_retrieval.py
+```
+
+### Corpus Verification Gate
+Current result:
+
+```text
+pages crawled: 14
+pages failed: 0
+raw RAG documents: 14
+approved RAG documents: 8
+duplicate URL variants excluded: 6
+```
+
+Approved retrieval input:
+
+```text
+rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl
+```
+
+### Retrieval Verification Gate
+Run:
+
+```bash
+PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+```
+
+Expected behavior:
+
+```text
+IVF query resolves to service2
+fertility preservation query resolves to service4
+retrieval returns confidence scores before web_search_agent fallback
+```
+
+Current result:
+
+```text
+hybrid retrieval smoke passed
+14 tests passed
+```
+
+### Status
+```text
+RAG corpus and hybrid retrieval implemented locally
 ```
 
 ## Construction Order
@@ -311,8 +415,9 @@ The intended build sequence is:
 ```text
 GCP foundation
 -> storage
--> retrieval
 -> agents
+-> RAG corpus
+-> hybrid retrieval
 -> API
 -> deployment
 -> usecase-1 specialization
