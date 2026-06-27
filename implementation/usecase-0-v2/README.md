@@ -191,7 +191,7 @@ PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
 The real semantic embedding path is now implemented and ready for Cloud Shell execution:
 
 ```text
-Vertex AI text-embedding-005
+Google Gen AI SDK on Vertex AI with text-embedding-005
 -> document vectors saved as JSONL
 -> optional FAISS index artifact
 -> query embedding with same model

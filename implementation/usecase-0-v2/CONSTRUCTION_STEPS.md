@@ -415,7 +415,7 @@ RAG corpus and hybrid retrieval implemented locally and verified on Cloud Shell
 Replace the temporary hash-vector path with real semantic embeddings while keeping BM25 keyword retrieval and FAISS hybrid search.
 
 ### Logic
-FAISS is the vector search engine. Vertex AI `text-embedding-005` creates the semantic vectors that go into FAISS.
+FAISS is the vector search engine. Google Gen AI SDK calls Vertex AI `text-embedding-005` to create the semantic vectors that go into FAISS.
 
 The retrieval path becomes:
 

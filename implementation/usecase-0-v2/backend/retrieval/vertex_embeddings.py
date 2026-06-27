@@ -6,38 +6,55 @@ class VertexTextEmbeddingModel:
         self.project_id = project_id
         self.location = location
         self.model_name = model_name
-        self._model = None
+        self._client = None
 
     def embed(self, text: str) -> list[float]:
         return self.embed_texts([text])[0]
 
     def embed_texts(self, texts: list[str], task_type: str | None = None) -> list[list[float]]:
-        model = self._get_model()
-        inputs = _build_inputs(texts, task_type)
-        embeddings = model.get_embeddings(inputs)
-        return [[float(value) for value in embedding.values] for embedding in embeddings]
+        client = self._get_client()
+        config = _build_embed_config(task_type)
+        response = client.models.embed_content(
+            model=self.model_name,
+            contents=texts,
+            config=config,
+        )
+        return [_embedding_values(embedding) for embedding in response.embeddings]
 
-    def _get_model(self):
-        if self._model is not None:
-            return self._model
+    def _get_client(self):
+        if self._client is not None:
+            return self._client
         try:
-            import vertexai
-            from vertexai.language_models import TextEmbeddingModel
+            from google import genai
+            from google.genai.types import HttpOptions
         except Exception as exc:
             raise RuntimeError(
-                "Vertex AI embedding dependencies are missing. Install requirements-embeddings.txt."
+                "Google Gen AI embedding dependencies are missing. Install requirements-embeddings.txt."
             ) from exc
 
-        vertexai.init(project=self.project_id, location=self.location)
-        self._model = TextEmbeddingModel.from_pretrained(self.model_name)
-        return self._model
+        self._client = genai.Client(
+            vertexai=True,
+            project=self.project_id,
+            location=self.location,
+            http_options=HttpOptions(api_version="v1"),
+        )
+        return self._client
 
 
-def _build_inputs(texts: list[str], task_type: str | None):
+def _build_embed_config(task_type: str | None):
     if not task_type:
-        return texts
+        return None
     try:
-        from vertexai.language_models import TextEmbeddingInput
+        from google.genai.types import EmbedContentConfig
     except Exception:
-        return texts
-    return [TextEmbeddingInput(text, task_type) for text in texts]
+        return {"task_type": task_type}
+    return EmbedContentConfig(task_type=task_type)
+
+
+def _embedding_values(embedding) -> list[float]:
+    values = getattr(embedding, "values", None)
+    if values is None and isinstance(embedding, dict):
+        values = embedding.get("values")
+    if values is None:
+        raise RuntimeError("Embedding response did not include vector values.")
+    return [float(value) for value in values]

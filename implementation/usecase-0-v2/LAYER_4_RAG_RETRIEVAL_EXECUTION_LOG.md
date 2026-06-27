@@ -380,6 +380,26 @@ Cloud Shell verification remains pending until `build_vertex_embeddings.py` is r
 
 Added `tests/test_script_syntax.py` after Cloud Shell exposed a syntax issue in the embedding build script. This compiles project scripts into a temporary pytest directory and prevents repo `__pycache__` churn.
 
+Handled Vertex SDK deprecation warning by migrating the embedding wrapper from:
+
+```text
+vertexai.language_models.TextEmbeddingModel
+```
+
+to the supported Google Gen AI SDK path:
+
+```text
+google.genai.Client(vertexai=True, project=..., location=..., http_options=HttpOptions(api_version="v1"))
+client.models.embed_content(model="text-embedding-005", ...)
+```
+
+Updated:
+
+```text
+backend/retrieval/vertex_embeddings.py
+requirements-embeddings.txt
+```
+
 ## Step 12 - Cleanliness Check
 Checked for unwanted local artifacts:
 
