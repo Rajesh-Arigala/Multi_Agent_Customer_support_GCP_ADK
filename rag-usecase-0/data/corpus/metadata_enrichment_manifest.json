@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-06-27T06:26:01.027890+00:00",
+  "metadata_version": "v1_business_rules",
+  "input_path": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl",
+  "output_path": "/Users/jhonny001/Desktop/GenAi Notes/Final_GenAi/Ai Agents/GCP/Customer_support_MultiAgents/implementation/usecase-0-v2/rag_pipeline/drmadhupatil_corpus/07_output_enriched_documents/drmadhupatil_enriched_rag_corpus.jsonl",
+  "document_count": 8,
+  "page_types": {
+    "homepage": 1,
+    "service": 6,
+    "blog": 1
+  },
+  "source_priorities": {
+    "medium": 1,
+    "high": 6,
+    "low": 1
+  },
+  "required_fields": [
+    "page_type",
+    "service_slug",
+    "service_name",
+    "specialty",
+    "conditions",
+    "treatments",
+    "intent",
+    "appointment_eligible",
+    "emergency_related",
+    "source_priority"
+  ]
+}
