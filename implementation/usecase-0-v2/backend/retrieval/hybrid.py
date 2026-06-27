@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
+
 from backend.retrieval.keyword import BM25Retriever
 from backend.retrieval.models import RetrievalDocument, RetrievalResult
 from backend.retrieval.text import tokenize
-from backend.retrieval.vector import VectorRetriever
+from backend.retrieval.vector import EmbeddingModel, VectorRetriever
 
 
 class HybridRetriever:
@@ -13,13 +15,21 @@ class HybridRetriever:
         keyword_weight: float = 0.55,
         vector_weight: float = 0.45,
         confidence_threshold: float = 0.35,
+        embedding_model: EmbeddingModel | None = None,
+        document_vectors: Mapping[str, list[float]] | None = None,
     ):
         self.documents = documents
         self.keyword_weight = keyword_weight
         self.vector_weight = vector_weight
         self.confidence_threshold = confidence_threshold
+        self.embedding_model = embedding_model
+        self.document_vectors = document_vectors or {}
         self.keyword = BM25Retriever(documents)
-        self.vector = VectorRetriever(documents)
+        self.vector = VectorRetriever(
+            documents,
+            embedding_model=self.embedding_model,
+            document_vectors=self.document_vectors,
+        )
 
     def search(
         self,
@@ -32,7 +42,11 @@ class HybridRetriever:
             return []
 
         keyword_scores = BM25Retriever(candidate_documents).score(query)
-        vector_scores = VectorRetriever(candidate_documents).score(query)
+        vector_scores = VectorRetriever(
+            candidate_documents,
+            embedding_model=self.embedding_model,
+            document_vectors=self.document_vectors,
+        ).score(query)
         results = []
 
         for document in candidate_documents:

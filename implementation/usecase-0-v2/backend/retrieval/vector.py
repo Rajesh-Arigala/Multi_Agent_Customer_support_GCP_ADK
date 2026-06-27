@@ -2,9 +2,15 @@ from __future__ import annotations
 
 import hashlib
 import math
+from collections.abc import Mapping
+from typing import Protocol
 
 from backend.retrieval.models import RetrievalDocument
 from backend.retrieval.text import tokenize
+
+
+class EmbeddingModel(Protocol):
+    def embed(self, text: str) -> list[float]: ...
 
 
 class HashEmbeddingModel:
@@ -19,17 +25,20 @@ class HashEmbeddingModel:
             sign = 1.0 if digest[4] % 2 == 0 else -1.0
             vector[index] += sign
 
-        norm = math.sqrt(sum(value * value for value in vector))
-        if norm == 0:
-            return vector
-        return [value / norm for value in vector]
+        return normalize_vector(vector)
 
 
 class VectorRetriever:
-    def __init__(self, documents: list[RetrievalDocument], embedding_model: HashEmbeddingModel | None = None):
+    def __init__(
+        self,
+        documents: list[RetrievalDocument],
+        embedding_model: EmbeddingModel | None = None,
+        document_vectors: Mapping[str, list[float]] | None = None,
+    ):
         self.documents = documents
         self.embedding_model = embedding_model or HashEmbeddingModel()
-        self.doc_vectors = [self.embedding_model.embed(document.searchable_text) for document in documents]
+        self.document_vectors = document_vectors or {}
+        self.doc_vectors = [self._document_vector(document) for document in documents]
         self.backend = "python"
         self._faiss_index = None
         self._try_build_faiss_index()
@@ -38,10 +47,16 @@ class VectorRetriever:
         if not self.documents:
             return {}
 
-        query_vector = self.embedding_model.embed(query)
+        query_vector = normalize_vector(self.embedding_model.embed(query))
         if self._faiss_index is not None:
             return self._faiss_scores(query_vector)
         return self._python_scores(query_vector)
+
+    def _document_vector(self, document: RetrievalDocument) -> list[float]:
+        vector = self.document_vectors.get(document.doc_id)
+        if vector is not None:
+            return normalize_vector(vector)
+        return normalize_vector(self.embedding_model.embed(document.searchable_text))
 
     def _try_build_faiss_index(self) -> None:
         try:
@@ -54,6 +69,8 @@ class VectorRetriever:
             return
 
         vectors = np.array(self.doc_vectors, dtype="float32")
+        if len(vectors.shape) != 2 or vectors.shape[1] == 0:
+            return
         index = faiss.IndexFlatIP(vectors.shape[1])
         index.add(vectors)
         self._faiss_index = index
@@ -75,3 +92,10 @@ class VectorRetriever:
             score = sum(left * right for left, right in zip(query_vector, vector))
             scores[document.doc_id] = max(score, 0.0)
         return scores
+
+
+def normalize_vector(vector: list[float]) -> list[float]:
+    norm = math.sqrt(sum(value * value for value in vector))
+    if norm == 0:
+        return vector
+    return [value / norm for value in vector]

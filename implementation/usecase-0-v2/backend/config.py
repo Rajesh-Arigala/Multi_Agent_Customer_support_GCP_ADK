@@ -17,3 +17,5 @@ SHEET_TABS = DEFAULT_SHEET_TABS
 
 
 BACKEND_SERVICE_ACCOUNT = os.getenv("BACKEND_SERVICE_ACCOUNT", "multi-agent-backend-sa@multi-agent-adk-1.iam.gserviceaccount.com")
+
+EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "text-embedding-005")

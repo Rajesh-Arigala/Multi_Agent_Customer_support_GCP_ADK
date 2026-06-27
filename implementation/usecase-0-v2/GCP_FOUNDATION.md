@@ -40,6 +40,7 @@ Sheets smoke script
 agent layer
 RABBIT-style drmadhupatil.com corpus
 BM25 + vector hybrid retrieval layer
+Vertex AI embedding path using text-embedding-005
 ```
 
 Not completed yet:

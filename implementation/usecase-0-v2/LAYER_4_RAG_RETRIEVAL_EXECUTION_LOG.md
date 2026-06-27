@@ -329,8 +329,54 @@ Verification after n-gram refinement:
 
 ```text
 hybrid retrieval smoke passed
-14 tests passed
+16 tests passed
 ```
+
+## Step 13 - Added Vertex AI Embedding Path
+Implemented the real semantic embedding path using:
+
+```text
+text-embedding-005
+project: multi-agent-adk-1
+location: us-central1
+```
+
+Added:
+
+```text
+backend/retrieval/vertex_embeddings.py
+backend/retrieval/embedding_store.py
+scripts/build_vertex_embeddings.py
+scripts/smoke_vertex_embeddings.py
+requirements-embeddings.txt
+tests/test_vertex_embedding_path.py
+```
+
+Extended:
+
+```text
+backend/retrieval/vector.py
+backend/retrieval/hybrid.py
+backend/config.py
+```
+
+Behavior:
+
+```text
+Build document embeddings with Vertex AI.
+Persist vectors as JSONL.
+Write a FAISS index artifact when faiss is installed.
+Embed user queries with the same Vertex model.
+Use BM25 + Vertex-vector hybrid scoring.
+```
+
+Local verification uses a fake embedding model so tests do not call Vertex:
+
+```text
+16 tests passed
+```
+
+Cloud Shell verification remains pending until `build_vertex_embeddings.py` is run in GCP.
 
 ## Step 12 - Cleanliness Check
 Checked for unwanted local artifacts:

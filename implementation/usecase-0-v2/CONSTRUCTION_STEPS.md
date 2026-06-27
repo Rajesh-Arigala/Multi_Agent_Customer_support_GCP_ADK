@@ -282,7 +282,7 @@ memory/audit tests pass
 Current result:
 
 ```text
-14 tests passed
+16 tests passed
 ```
 
 ### Cloud Shell Smoke Gate
@@ -401,12 +401,87 @@ Current result:
 
 ```text
 hybrid retrieval smoke passed
-14 tests passed
+16 tests passed
 ```
 
 ### Status
 ```text
-RAG corpus and hybrid retrieval implemented locally
+RAG corpus and hybrid retrieval implemented locally and verified on Cloud Shell
+```
+
+## Layer 4E - Vertex AI Embeddings
+
+### Goal
+Replace the temporary hash-vector path with real semantic embeddings while keeping BM25 keyword retrieval and FAISS hybrid search.
+
+### Logic
+FAISS is the vector search engine. Vertex AI `text-embedding-005` creates the semantic vectors that go into FAISS.
+
+The retrieval path becomes:
+
+```text
+approved RAG corpus
+-> Vertex document embeddings
+-> persisted embedding JSONL
+-> FAISS index artifact when faiss is installed
+-> Vertex query embedding
+-> BM25 + vector hybrid scoring
+```
+
+### Construction Steps
+1. Add Vertex embedding wrapper:
+
+```text
+backend/retrieval/vertex_embeddings.py
+```
+
+2. Add embedding artifact loader/saver:
+
+```text
+backend/retrieval/embedding_store.py
+```
+
+3. Extend vector retrieval to accept precomputed document vectors.
+
+4. Add build and smoke scripts:
+
+```text
+scripts/build_vertex_embeddings.py
+scripts/smoke_vertex_embeddings.py
+```
+
+5. Add local tests with a fake embedding model:
+
+```text
+tests/test_vertex_embedding_path.py
+```
+
+6. Add optional dependency file:
+
+```text
+requirements-embeddings.txt
+```
+
+### Cloud Shell Build Gate
+Run:
+
+```bash
+pip install -r requirements-embeddings.txt
+PYTHONPATH=. python scripts/build_vertex_embeddings.py
+PYTHONPATH=. python scripts/smoke_vertex_embeddings.py
+```
+
+Expected behavior:
+
+```text
+embedding_model=text-embedding-005
+vector_backend=faiss
+queries resolve through BM25 + real Vertex semantic vectors
+```
+
+### Status
+```text
+Vertex embedding code implemented locally - pending Cloud Shell embedding build
 ```
 
 ## Construction Order
@@ -418,6 +493,7 @@ GCP foundation
 -> agents
 -> RAG corpus
 -> hybrid retrieval
+-> Vertex embeddings
 -> API
 -> deployment
 -> usecase-1 specialization

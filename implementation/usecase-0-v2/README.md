@@ -178,13 +178,51 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 14 passed
+full test suite: 16 passed
 ```
 
 Smoke command:
 
 ```bash
 PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+```
+
+## Implemented Backend Unit: Vertex Embedding Path
+The real semantic embedding path is now implemented and ready for Cloud Shell execution:
+
+```text
+Vertex AI text-embedding-005
+-> document vectors saved as JSONL
+-> optional FAISS index artifact
+-> query embedding with same model
+-> BM25 + Vertex-vector hybrid fusion
+```
+
+Embedding model configuration:
+
+```env
+EMBEDDING_MODEL_NAME=text-embedding-005
+GOOGLE_CLOUD_PROJECT=multi-agent-adk-1
+GOOGLE_CLOUD_LOCATION=us-central1
+```
+
+Build command:
+
+```bash
+PYTHONPATH=. python scripts/build_vertex_embeddings.py
+```
+
+Smoke command:
+
+```bash
+PYTHONPATH=. python scripts/smoke_vertex_embeddings.py
+```
+
+Local verification uses a fake embedding model and precomputed vectors:
+
+```text
+Vertex embedding path tests pass
+full test suite: 16 passed
 ```
 
 ## Usecase Mapping
