@@ -178,7 +178,7 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 18 passed
+full test suite: 21 passed
 ```
 
 Smoke command:
@@ -227,11 +227,55 @@ Smoke command:
 PYTHONPATH=. python scripts/smoke_vertex_embeddings.py
 ```
 
-Local verification uses a fake embedding model and precomputed vectors:
+Local verification uses a fake embedding model and precomputed vectors. Cloud Shell verification uses real Vertex embeddings.
 
 ```text
 Vertex embedding path tests pass
-full test suite: 18 passed
+Cloud Shell embedding build: documents=8, dimensions=768, faiss_index_written=True
+Cloud Shell smoke: service-specific queries resolve to service pages
+full test suite: 21 passed
+```
+
+## Implemented Backend Unit: Agent Retrieval Integration
+The FAQ/retrieval tool now uses the real Vertex embedding artifacts when they are present:
+
+```text
+FaqTools
+-> FAQ rows first, if maintained in storage
+-> otherwise approved website RAG corpus
+-> Vertex document vectors, if artifact exists
+-> BM25 + Vertex-vector hybrid retrieval
+-> web_search_agent only after local retrieval misses
+```
+
+Retrieval modes are explicit in responses:
+
+```text
+hybrid_vertex              real Vertex document/query vectors
+hybrid_hash                local fallback when embeddings are absent or FAQ rows are used
+hybrid_hash_missing_vectors local fallback when embedding coverage is incomplete
+```
+
+Agent-level smoke command:
+
+```bash
+PYTHONPATH=. python scripts/smoke_agent_vertex_retrieval.py
+```
+
+Expected Cloud Shell hits:
+
+```text
+PCOS/endometriosis -> WEB-DRMADHU-006, mode=hybrid_vertex
+IVF/ICSI -> WEB-DRMADHU-003, mode=hybrid_vertex
+fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
+```
+
+Local verification:
+
+```text
+FaqTools Vertex-artifact path tests pass
+scripts compile
+full test suite: 21 passed
 ```
 
 ## Usecase Mapping
@@ -264,3 +308,6 @@ Cloud Run / Vertex deployment
 usecase-1 specialization
 ```
 
+
+## Deferred Future Work
+Future corpus refresh automation is intentionally deferred. The future pipeline should detect website content changes, rebuild the RAG corpus, regenerate embeddings only when needed, rebuild FAISS, and write a refresh report.

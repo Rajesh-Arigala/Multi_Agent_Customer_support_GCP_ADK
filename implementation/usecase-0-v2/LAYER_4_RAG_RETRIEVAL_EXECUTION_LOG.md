@@ -434,6 +434,151 @@ fertility preservation -> WEB-DRMADHU-005 / service4
 
 Cloud Shell verification with real Vertex vectors remains pending.
 
+## Step 15 - Cloud Shell Verification For Vertex Embeddings And Ranking
+Verified the real Vertex embedding path and service-page ranking refinement in Cloud Shell.
+
+Environment:
+
+```text
+project: multi-agent-adk-1
+location: us-central1
+embedding model: text-embedding-005
+SDK path: google-genai on Vertex AI
+vector backend: faiss
+```
+
+Cloud Shell commands run:
+
+```bash
+PYTHONPATH=. python scripts/build_vertex_embeddings.py
+PYTHONPATH=. python scripts/smoke_vertex_embeddings.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Embedding build result:
+
+```text
+embedded 8/8
+documents=8
+dimensions=768
+faiss_index_written=True
+```
+
+Smoke result:
+
+```text
+IVF/ICSI -> WEB-DRMADHU-003 / service2
+PCOS/endometriosis -> WEB-DRMADHU-006 / service5
+fertility preservation -> WEB-DRMADHU-005 / service4
+hormonal irregular periods -> WEB-DRMADHU-006 / service5
+```
+
+Test result:
+
+```text
+21 passed
+```
+
+Status:
+
+```text
+Layer 4E Vertex embeddings verified on Cloud Shell.
+Layer 4F service-page ranking refinement verified on Cloud Shell.
+```
+
+## Step 16 - Connected Retrieval Artifacts To Agent FAQ Tool
+Connected the real retrieval artifacts into `FaqTools`, which is the local knowledge lookup used by the orchestrator before web-search fallback.
+
+What changed:
+
+```text
+backend/tools/faq_tools.py
+scripts/smoke_agent_vertex_retrieval.py
+tests/test_faq_tools_vertex_mode.py
+```
+
+Retrieval behavior:
+
+```text
+FAQ rows present -> use FAQ rows first with local hybrid fallback
+No FAQ rows -> load approved website RAG corpus
+Vertex embedding JSONL exists -> use BM25 + Vertex-vector hybrid retrieval
+Embedding artifact missing/incomplete -> use hash-vector hybrid fallback
+```
+
+Response retrieval modes:
+
+```text
+hybrid_vertex
+hybrid_hash
+hybrid_hash_missing_vectors
+```
+
+Local verification completed:
+
+```bash
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Result:
+
+```text
+21 passed
+```
+
+Script syntax verification completed:
+
+```text
+scripts/smoke_agent_vertex_retrieval.py compiles
+scripts/smoke_vertex_embeddings.py compiles
+scripts/build_vertex_embeddings.py compiles
+```
+
+Cloud Shell next gate:
+
+```bash
+PYTHONPATH=. python scripts/smoke_agent_vertex_retrieval.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Expected Cloud Shell agent smoke:
+
+```text
+PCOS/endometriosis -> WEB-DRMADHU-006, mode=hybrid_vertex
+IVF/ICSI -> WEB-DRMADHU-003, mode=hybrid_vertex
+fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
+```
+
+Status:
+
+```text
+Layer 4G implemented and locally verified.
+Cloud Shell agent-level smoke pending.
+```
+
+## Future Note - Corpus Refresh Automation
+Do not implement now. Future automation should refresh the corpus when website content changes.
+
+Candidate future pipeline:
+
+```text
+crawl website
+-> rebuild RAG corpus
+-> compare content hashes
+-> rebuild embeddings only if changed
+-> rebuild FAISS index
+-> run retrieval smoke
+-> write refresh report
+```
+
+Potential future command:
+
+```bash
+PYTHONPATH=. python scripts/refresh_rag_corpus.py --if-changed
+```
+
+This is intentionally deferred until the current baseline is complete.
+
 ## Step 12 - Cleanliness Check
 Checked for unwanted local artifacts:
 

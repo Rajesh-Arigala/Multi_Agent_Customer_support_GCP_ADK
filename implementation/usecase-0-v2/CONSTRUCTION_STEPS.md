@@ -282,7 +282,7 @@ memory/audit tests pass
 Current result:
 
 ```text
-18 tests passed
+21 tests passed
 ```
 
 ### Cloud Shell Smoke Gate
@@ -401,7 +401,7 @@ Current result:
 
 ```text
 hybrid retrieval smoke passed
-18 tests passed
+21 tests passed
 ```
 
 ### Status
@@ -481,7 +481,7 @@ queries resolve through BM25 + real Vertex semantic vectors
 
 ### Status
 ```text
-Vertex embedding code implemented locally - pending Cloud Shell embedding build
+Vertex embedding path verified on Cloud Shell
 ```
 
 ## Layer 4F - Retrieval Ranking Refinement
@@ -525,12 +525,63 @@ Current local result:
 
 ```text
 PCOS/endometriosis query resolves to WEB-DRMADHU-006 / service5
-18 tests passed
+21 tests passed
 ```
 
 ### Status
 ```text
-retrieval ranking refinement implemented locally - pending Cloud Shell verification with Vertex vectors
+retrieval ranking refinement verified on Cloud Shell with Vertex vectors
+```
+
+## Layer 4G - Agent Retrieval Integration
+
+### Goal
+Connect the production retrieval artifacts to the agent path before any web-search fallback.
+
+### Logic
+The agent should answer from controlled local knowledge first. Google Search should be a fallback, not the first retrieval layer.
+
+```text
+user question
+-> orchestrator
+-> FaqTools
+-> stored FAQ rows, if present
+-> approved website corpus
+-> Vertex embedding artifact, if present
+-> hybrid retrieval with ranking policy
+-> web_search_agent only if confidence is too low
+```
+
+### Construction Steps
+1. Make `FaqTools` embedding-artifact aware.
+2. Load `drmadhupatil_vertex_embeddings.jsonl` when it exists.
+3. Use Vertex query embeddings with the same `text-embedding-005` model.
+4. Fall back to hash-vector retrieval if embeddings are missing or incomplete.
+5. Keep manually maintained FAQ rows first, because direct business answers should override website corpus matches.
+6. Add an agent-level smoke test for the real retrieval path.
+
+### Verification Gate
+Run locally or in Cloud Shell after embeddings have been built:
+
+```bash
+PYTHONPATH=. python scripts/smoke_agent_vertex_retrieval.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Expected smoke behavior:
+
+```text
+PCOS/endometriosis -> WEB-DRMADHU-006, mode=hybrid_vertex
+IVF/ICSI -> WEB-DRMADHU-003, mode=hybrid_vertex
+fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
+```
+
+### Status
+```text
+FaqTools connected to real Vertex embedding artifacts
+local fallback modes preserved
+21 tests passed locally
+Cloud Shell agent-level smoke pending
 ```
 
 ## Construction Order
@@ -558,3 +609,25 @@ verification gate
 status
 ```
 
+
+## Deferred - Corpus Refresh Automation
+
+Future automation should refresh the corpus only when website content changes.
+
+Target future flow:
+
+```text
+crawl website
+-> rebuild RAG corpus
+-> compare content hashes
+-> rebuild embeddings if changed
+-> rebuild FAISS
+-> run retrieval smoke
+-> write refresh report
+```
+
+Status:
+
+```text
+deferred until baseline completion
+```

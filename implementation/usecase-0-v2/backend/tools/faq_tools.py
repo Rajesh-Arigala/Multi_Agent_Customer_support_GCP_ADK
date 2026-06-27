@@ -1,7 +1,10 @@
 from pathlib import Path
 from typing import Any
 
+from backend.config import EMBEDDING_MODEL_NAME, LOCATION, PROJECT_ID
 from backend.retrieval import HybridRetriever, documents_from_faq_rows, load_jsonl_documents
+from backend.retrieval.embedding_store import load_embedding_records
+from backend.retrieval.vertex_embeddings import VertexTextEmbeddingModel
 from backend.storage import StorageService
 
 
@@ -12,12 +15,29 @@ DEFAULT_CORPUS_PATH = (
     / "06_output_rag_documents_ready"
     / "drmadhupatil_rag_corpus.jsonl"
 )
+DEFAULT_EMBEDDINGS_PATH = (
+    Path(__file__).resolve().parents[2]
+    / "rag_pipeline"
+    / "drmadhupatil_corpus"
+    / "08_output_vertex_embeddings"
+    / "drmadhupatil_vertex_embeddings.jsonl"
+)
 
 
 class FaqTools:
-    def __init__(self, store: StorageService, corpus_path: Path = DEFAULT_CORPUS_PATH):
+    def __init__(
+        self,
+        store: StorageService,
+        corpus_path: Path = DEFAULT_CORPUS_PATH,
+        embeddings_path: Path = DEFAULT_EMBEDDINGS_PATH,
+        embedding_model: Any | None = None,
+        use_vertex_embeddings: bool = True,
+    ):
         self.store = store
         self.corpus_path = corpus_path
+        self.embeddings_path = embeddings_path
+        self.embedding_model = embedding_model
+        self.use_vertex_embeddings = use_vertex_embeddings
 
     def retrieve_faq_answer(self, query: str) -> dict[str, Any]:
         faq_documents = documents_from_faq_rows(self.store.list_rows("faq"))
@@ -25,24 +45,52 @@ class FaqTools:
         if not documents:
             return {"status": "not_found", "message": "No FAQ or website corpus is available."}
 
-        retriever = HybridRetriever(documents)
+        retriever, retrieval_mode = self._build_retriever(documents, bool(faq_documents))
         best = retriever.best_match(query)
         if best is None:
             return {
                 "status": "not_found",
                 "message": "No local knowledge-base answer met the confidence threshold.",
-                "retrieval": {"threshold": retriever.confidence_threshold},
+                "retrieval": {"threshold": retriever.confidence_threshold, "mode": retrieval_mode},
             }
 
         document = best.document
         answer = document.metadata.get("answer") or _website_answer(document.title, document.content, document.url)
+        payload = best.to_dict()
+        payload["mode"] = retrieval_mode
         return {
             "status": "success",
             "faq_id": document.doc_id,
             "answer": answer,
             "source": document.source_type,
-            "retrieval": best.to_dict(),
+            "retrieval": payload,
         }
+
+    def _build_retriever(self, documents, using_faq_rows: bool) -> tuple[HybridRetriever, str]:
+        if using_faq_rows or not self.use_vertex_embeddings or not self.embeddings_path.exists():
+            return HybridRetriever(documents), "hybrid_hash"
+
+        document_vectors = load_embedding_records(self.embeddings_path)
+        if not _has_vectors_for_documents(documents, document_vectors):
+            return HybridRetriever(documents), "hybrid_hash_missing_vectors"
+
+        embedding_model = self.embedding_model or VertexTextEmbeddingModel(
+            PROJECT_ID,
+            LOCATION,
+            EMBEDDING_MODEL_NAME,
+        )
+        return (
+            HybridRetriever(
+                documents,
+                embedding_model=embedding_model,
+                document_vectors=document_vectors,
+            ),
+            "hybrid_vertex",
+        )
+
+
+def _has_vectors_for_documents(documents, document_vectors: dict[str, list[float]]) -> bool:
+    return all(document.doc_id in document_vectors for document in documents)
 
 
 def _website_answer(title: str, content: str, url: str) -> str:
