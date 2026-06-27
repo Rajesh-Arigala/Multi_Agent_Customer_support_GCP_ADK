@@ -4,6 +4,7 @@ from collections.abc import Mapping
 
 from backend.retrieval.keyword import BM25Retriever
 from backend.retrieval.models import RetrievalDocument, RetrievalResult
+from backend.retrieval.ranking import apply_service_ranking_policy
 from backend.retrieval.text import tokenize
 from backend.retrieval.vector import EmbeddingModel, VectorRetriever
 
@@ -54,6 +55,7 @@ class HybridRetriever:
             vector_score = vector_scores.get(document.doc_id, 0.0)
             fused_score = (self.keyword_weight * keyword_score) + (self.vector_weight * vector_score)
             fused_score = min(fused_score + _title_overlap_boost(query, document), 1.0)
+            fused_score = apply_service_ranking_policy(query, document, fused_score)
             if fused_score <= 0:
                 continue
             results.append(

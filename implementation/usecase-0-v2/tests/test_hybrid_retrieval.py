@@ -67,3 +67,14 @@ def test_tokenize_with_ngrams_adds_phrases():
     assert "fertility" in terms
     assert "fertility preservation" in terms
     assert "fertility preservation options" in terms
+
+
+def test_service_specific_query_prefers_service_page_over_homepage():
+    documents = load_jsonl_documents(CORPUS_PATH)
+    retriever = HybridRetriever(documents)
+
+    result = retriever.best_match("Can Dr Madhu help with PCOS and endometriosis?")
+
+    assert result is not None
+    assert result.document.doc_id == "WEB-DRMADHU-006"
+    assert result.document.metadata["page_id"] == "service5"

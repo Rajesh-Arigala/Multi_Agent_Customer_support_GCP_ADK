@@ -282,7 +282,7 @@ memory/audit tests pass
 Current result:
 
 ```text
-17 tests passed
+18 tests passed
 ```
 
 ### Cloud Shell Smoke Gate
@@ -401,7 +401,7 @@ Current result:
 
 ```text
 hybrid retrieval smoke passed
-17 tests passed
+18 tests passed
 ```
 
 ### Status
@@ -482,6 +482,55 @@ queries resolve through BM25 + real Vertex semantic vectors
 ### Status
 ```text
 Vertex embedding code implemented locally - pending Cloud Shell embedding build
+```
+
+## Layer 4F - Retrieval Ranking Refinement
+
+### Goal
+Prefer specific service pages over the homepage when the query clearly asks about a medical service.
+
+### Logic
+The homepage contains broad content and can score highly for many exact terms. Service-specific queries should resolve to the most relevant service page when available.
+
+Implemented policy:
+
+```text
+service-intent query terms -> boost matching service page
+service-intent query terms -> dampen homepage unless title directly matches
+```
+
+Examples:
+
+```text
+PCOS/endometriosis -> service5
+IVF/ICSI -> service2
+fertility preservation -> service4
+```
+
+### Implemented Components
+```text
+backend/retrieval/ranking.py
+HybridRetriever applies service ranking policy after hybrid score fusion
+```
+
+### Verification Gate
+Run:
+
+```bash
+PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+PYTHONPATH=. python -m pytest -p no:cacheprovider
+```
+
+Current local result:
+
+```text
+PCOS/endometriosis query resolves to WEB-DRMADHU-006 / service5
+18 tests passed
+```
+
+### Status
+```text
+retrieval ranking refinement implemented locally - pending Cloud Shell verification with Vertex vectors
 ```
 
 ## Construction Order

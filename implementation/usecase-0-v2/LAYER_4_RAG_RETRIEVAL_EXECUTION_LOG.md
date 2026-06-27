@@ -329,7 +329,7 @@ Verification after n-gram refinement:
 
 ```text
 hybrid retrieval smoke passed
-17 tests passed
+18 tests passed
 ```
 
 ## Step 13 - Added Vertex AI Embedding Path
@@ -373,7 +373,7 @@ Use BM25 + Vertex-vector hybrid scoring.
 Local verification uses a fake embedding model so tests do not call Vertex:
 
 ```text
-17 tests passed
+18 tests passed
 ```
 
 Cloud Shell verification remains pending until `build_vertex_embeddings.py` is run in GCP.
@@ -399,6 +399,40 @@ Updated:
 backend/retrieval/vertex_embeddings.py
 requirements-embeddings.txt
 ```
+
+## Step 14 - Added Service-Page Ranking Policy
+Added deterministic ranking refinement so service-specific medical queries prefer service pages over the broad homepage.
+
+Added:
+
+```text
+backend/retrieval/ranking.py
+```
+
+Updated:
+
+```text
+backend/retrieval/hybrid.py
+tests/test_hybrid_retrieval.py
+```
+
+Policy:
+
+```text
+If query contains known service terms, boost matching service page IDs.
+If query contains service terms and document is homepage, apply a small dampening factor.
+```
+
+Verified locally:
+
+```text
+PCOS/endometriosis -> WEB-DRMADHU-006 / service5
+IVF/ICSI -> WEB-DRMADHU-003 / service2
+fertility preservation -> WEB-DRMADHU-005 / service4
+18 tests passed
+```
+
+Cloud Shell verification with real Vertex vectors remains pending.
 
 ## Step 12 - Cleanliness Check
 Checked for unwanted local artifacts:

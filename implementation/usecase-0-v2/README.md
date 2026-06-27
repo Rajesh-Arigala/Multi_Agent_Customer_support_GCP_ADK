@@ -178,13 +178,22 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 17 passed
+full test suite: 18 passed
 ```
 
 Smoke command:
 
 ```bash
 PYTHONPATH=. python scripts/smoke_hybrid_retrieval.py
+```
+
+Ranking refinement:
+
+```text
+service-page ranking policy prefers matching service pages over the broad homepage for service-specific medical queries
+PCOS/endometriosis -> service5
+IVF/ICSI -> service2
+fertility preservation -> service4
 ```
 
 ## Implemented Backend Unit: Vertex Embedding Path
@@ -222,7 +231,7 @@ Local verification uses a fake embedding model and precomputed vectors:
 
 ```text
 Vertex embedding path tests pass
-full test suite: 17 passed
+full test suite: 18 passed
 ```
 
 ## Usecase Mapping
