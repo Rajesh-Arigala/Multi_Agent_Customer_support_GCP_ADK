@@ -1,6 +1,7 @@
 import json
 
 from backend.storage import CsvStore
+import backend.tools.faq_tools as faq_tools
 from backend.tools.faq_tools import FaqTools
 
 
@@ -56,6 +57,30 @@ def test_faq_tools_uses_vertex_artifact_when_available(tmp_path):
 
     result = tool.retrieve_faq_answer("Can Dr Madhu help with PCOS and endometriosis?")
 
+    assert result["status"] == "success"
+    assert result["faq_id"] == "WEB-006"
+    assert result["retrieval"]["mode"] == "hybrid_vertex"
+
+
+def test_faq_tools_defaults_to_imported_knowledge_bundle_when_complete(tmp_path, monkeypatch):
+    imported_dir = tmp_path / "knowledge" / "latest"
+    imported_dir.mkdir(parents=True)
+    corpus_path = imported_dir / "corpus.jsonl"
+    embeddings_path = imported_dir / "embeddings.jsonl"
+    write_corpus(corpus_path)
+    write_embeddings(embeddings_path)
+    monkeypatch.setattr(faq_tools, "IMPORTED_CORPUS_PATH", corpus_path)
+    monkeypatch.setattr(faq_tools, "IMPORTED_EMBEDDINGS_PATH", embeddings_path)
+
+    tool = FaqTools(
+        CsvStore(tmp_path / "store"),
+        embedding_model=FakeEmbeddingModel(),
+    )
+
+    result = tool.retrieve_faq_answer("Can Dr Madhu help with PCOS and endometriosis?")
+
+    assert tool.corpus_path == corpus_path
+    assert tool.embeddings_path == embeddings_path
     assert result["status"] == "success"
     assert result["faq_id"] == "WEB-006"
     assert result["retrieval"]["mode"] == "hybrid_vertex"

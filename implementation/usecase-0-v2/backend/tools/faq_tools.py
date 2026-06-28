@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any
 
-from backend.config import EMBEDDING_MODEL_NAME, LOCATION, PROJECT_ID
+from backend.config import EMBEDDING_MODEL_NAME, KNOWLEDGE_DIR, LOCATION, PROJECT_ID
 from backend.retrieval import HybridRetriever, documents_from_faq_rows, load_jsonl_documents
 from backend.retrieval.filters import infer_metadata_filters
 from backend.retrieval.embedding_store import load_embedding_records
@@ -9,34 +9,71 @@ from backend.retrieval.vertex_embeddings import VertexTextEmbeddingModel
 from backend.storage import StorageService
 
 
-DEFAULT_CORPUS_PATH = (
+IMPORTED_CORPUS_PATH = KNOWLEDGE_DIR / "corpus.jsonl"
+IMPORTED_EMBEDDINGS_PATH = KNOWLEDGE_DIR / "embeddings.jsonl"
+IMPORTED_METADATA_MANIFEST_PATH = KNOWLEDGE_DIR / "metadata_manifest.json"
+
+PIPELINE_CORPUS_PATH = (
     Path(__file__).resolve().parents[2]
     / "rag_pipeline"
     / "drmadhupatil_corpus"
     / "07_output_enriched_documents"
     / "drmadhupatil_enriched_rag_corpus.jsonl"
 )
-DEFAULT_EMBEDDINGS_PATH = (
+PIPELINE_EMBEDDINGS_PATH = (
     Path(__file__).resolve().parents[2]
     / "rag_pipeline"
     / "drmadhupatil_corpus"
     / "08_output_vertex_embeddings"
     / "drmadhupatil_vertex_embeddings.jsonl"
 )
+PIPELINE_METADATA_MANIFEST_PATH = (
+    Path(__file__).resolve().parents[2]
+    / "rag_pipeline"
+    / "drmadhupatil_corpus"
+    / "07_output_enriched_documents"
+    / "metadata_enrichment_manifest.json"
+)
+
+
+def imported_knowledge_available() -> bool:
+    return IMPORTED_CORPUS_PATH.exists() and IMPORTED_EMBEDDINGS_PATH.exists()
+
+
+def default_corpus_path() -> Path:
+    if imported_knowledge_available():
+        return IMPORTED_CORPUS_PATH
+    return PIPELINE_CORPUS_PATH
+
+
+def default_embeddings_path() -> Path:
+    if imported_knowledge_available():
+        return IMPORTED_EMBEDDINGS_PATH
+    return PIPELINE_EMBEDDINGS_PATH
+
+
+def default_metadata_manifest_path() -> Path:
+    if imported_knowledge_available() and IMPORTED_METADATA_MANIFEST_PATH.exists():
+        return IMPORTED_METADATA_MANIFEST_PATH
+    return PIPELINE_METADATA_MANIFEST_PATH
+
+
+DEFAULT_CORPUS_PATH = default_corpus_path()
+DEFAULT_EMBEDDINGS_PATH = default_embeddings_path()
 
 
 class FaqTools:
     def __init__(
         self,
         store: StorageService,
-        corpus_path: Path = DEFAULT_CORPUS_PATH,
-        embeddings_path: Path = DEFAULT_EMBEDDINGS_PATH,
+        corpus_path: Path | None = None,
+        embeddings_path: Path | None = None,
         embedding_model: Any | None = None,
         use_vertex_embeddings: bool = True,
     ):
         self.store = store
-        self.corpus_path = corpus_path
-        self.embeddings_path = embeddings_path
+        self.corpus_path = corpus_path or default_corpus_path()
+        self.embeddings_path = embeddings_path or default_embeddings_path()
         self.embedding_model = embedding_model
         self.use_vertex_embeddings = use_vertex_embeddings
 

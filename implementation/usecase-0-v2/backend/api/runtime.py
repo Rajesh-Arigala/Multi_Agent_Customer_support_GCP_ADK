@@ -7,16 +7,7 @@ from typing import Any
 
 from backend.config import DATA_DIR, GOOGLE_SHEETS_ID, LOCATION, PROJECT_ID
 from backend.storage import CsvStore, GoogleSheetsStore, StorageService
-from backend.tools.faq_tools import DEFAULT_CORPUS_PATH, DEFAULT_EMBEDDINGS_PATH
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-METADATA_MANIFEST_PATH = (
-    BASE_DIR
-    / "rag_pipeline"
-    / "drmadhupatil_corpus"
-    / "07_output_enriched_documents"
-    / "metadata_enrichment_manifest.json"
-)
+from backend.tools.faq_tools import default_corpus_path, default_embeddings_path, default_metadata_manifest_path, imported_knowledge_available
 
 
 def build_runtime_store() -> StorageService:
@@ -39,17 +30,21 @@ def health_payload() -> dict[str, Any]:
 
 
 def metadata_status() -> dict[str, Any]:
-    corpus_exists = DEFAULT_CORPUS_PATH.exists()
-    embeddings_exists = DEFAULT_EMBEDDINGS_PATH.exists()
-    manifest = _load_json(METADATA_MANIFEST_PATH)
+    corpus_path = default_corpus_path()
+    embeddings_path = default_embeddings_path()
+    metadata_manifest_path = default_metadata_manifest_path()
+    corpus_exists = corpus_path.exists()
+    embeddings_exists = embeddings_path.exists()
+    manifest = _load_json(metadata_manifest_path)
     return {
         "status": "ok" if corpus_exists else "missing_corpus",
-        "corpus_path": str(DEFAULT_CORPUS_PATH),
+        "knowledge_source": "imported_bundle" if imported_knowledge_available() else "rag_pipeline",
+        "corpus_path": str(corpus_path),
         "corpus_exists": corpus_exists,
-        "embeddings_path": str(DEFAULT_EMBEDDINGS_PATH),
+        "embeddings_path": str(embeddings_path),
         "embeddings_exists": embeddings_exists,
-        "metadata_manifest_path": str(METADATA_MANIFEST_PATH),
-        "metadata_manifest_exists": METADATA_MANIFEST_PATH.exists(),
+        "metadata_manifest_path": str(metadata_manifest_path),
+        "metadata_manifest_exists": metadata_manifest_path.exists(),
         "document_count": manifest.get("document_count", 0),
         "metadata_version": manifest.get("metadata_version", ""),
         "page_types": manifest.get("page_types", {}),

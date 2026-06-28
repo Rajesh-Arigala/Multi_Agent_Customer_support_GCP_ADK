@@ -168,12 +168,13 @@ Current main project config uses:
 ```text
 backend/config.py
 DATA_DIR
+KNOWLEDGE_DIR
 EMBEDDING_MODEL_NAME
 ```
 
-Until the runtime is fully wired to `backend/knowledge/latest`, treat imported files as the approved weekly knowledge package.
+The runtime now prefers a complete imported bundle in `backend/knowledge/latest`.
 
-Future runtime mapping should be:
+Runtime mapping:
 
 ```text
 RAG corpus        -> backend/knowledge/latest/corpus.jsonl
@@ -182,6 +183,8 @@ Embeddings        -> backend/knowledge/latest/embeddings.jsonl
 Prompt policy     -> backend/knowledge/latest/prompt_policy.md
 FAQ exact layer    -> backend/knowledge/latest/faq_exact_answers.py
 ```
+
+If `backend/knowledge/latest/corpus.jsonl` or `backend/knowledge/latest/embeddings.jsonl` is missing, the runtime falls back to the older checked-in `rag_pipeline` corpus and embedding artifact paths.
 
 ## 8. Test Commands
 
