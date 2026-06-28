@@ -15,6 +15,12 @@ The goal is to avoid building usecase-1 as a one-off system. Instead, usecase-0-
 ## Current Foundation Status
 The GCP backend foundation is ready.
 
+For the latest verified runtime state, start here:
+
+[SESSION_HANDOFF.md](./SESSION_HANDOFF.md)
+
+[CURRENT_STATUS.md](./CURRENT_STATUS.md)
+
 Completed:
 
 ```text
@@ -26,6 +32,10 @@ IAM roles granted
 Google Sheet shared with service account
 Google Sheets access verified through service account impersonation
 operational Sheet tabs created
+doctor RAG knowledge bundle imported into backend/knowledge/latest
+main backend detects imported_bundle as the active knowledge source
+patient-friendly answer formatter active in /chat responses
+Cloud Shell verification: 35 tests passed
 ```
 
 Detailed setup record:
@@ -81,6 +91,33 @@ Website / chat UI
 -> Google Sheets operational storage
 -> local CSV mirror for development and backup
 -> audit logs and notification service
+```
+
+Current verified runtime path:
+
+```text
+FastAPI /chat
+-> SupportOrchestrator
+-> triage_agent
+-> FaqTools
+-> backend/knowledge/latest imported bundle
+-> Vertex text-embedding-005 query embedding
+-> BM25 + Vertex-vector hybrid retrieval
+-> patient-friendly answer formatter
+-> response with source and retrieval metadata
+```
+
+Current architecture status:
+
+```text
+triage_agent + RAG path       running and verified
+ticket_agent                  implemented, basic tests pass
+escalation_agent              implemented, basic tests pass
+web_search_agent fallback     exists, needs stricter gating
+local memory/audit            implemented locally
+Vertex Session/Memory Bank    not integrated yet
+Cloud Run main demo           next
+mobile frontend               next
 ```
 
 ## Implemented Backend Unit: Storage Layer
@@ -156,10 +193,18 @@ drmadhupatil.com
 -> quality reports + corpus manifest
 ```
 
-Approved corpus input:
+Legacy approved corpus input:
 
 ```text
 rag_pipeline/drmadhupatil_corpus/06_output_rag_documents_ready/drmadhupatil_rag_corpus.jsonl
+```
+
+Current active runtime corpus after the doctor-demo sync:
+
+```text
+backend/knowledge/latest/corpus.jsonl
+backend/knowledge/latest/embeddings.jsonl
+backend/knowledge/latest/content_version.json
 ```
 
 Retrieval method:
@@ -178,7 +223,7 @@ Verification completed locally:
 ```text
 Dr. Madhu corpus loads: 8 approved documents
 hybrid retrieval smoke passes
-full test suite: 31 passed
+current full test suite after imported-bundle integration: 35 passed
 ```
 
 Smoke command:
@@ -233,18 +278,19 @@ Local verification uses a fake embedding model and precomputed vectors. Cloud Sh
 Vertex embedding path tests pass
 Cloud Shell embedding build: documents=8, dimensions=768, faiss_index_written=True
 Cloud Shell smoke: service-specific queries resolve to service pages
-full test suite: 31 passed
+full test suite: 35 passed after imported-bundle runtime wiring and answer formatting
 ```
 
 ## Implemented Backend Unit: Agent Retrieval Integration
-The FAQ/retrieval tool now uses the real Vertex embedding artifacts when they are present:
+The FAQ/retrieval tool now prefers the imported doctor-demo knowledge bundle when it is complete:
 
 ```text
 FaqTools
 -> FAQ rows first, if maintained in storage
--> otherwise approved enriched website RAG corpus
--> Vertex document vectors, if artifact exists
+-> otherwise backend/knowledge/latest imported RAG corpus
+-> imported Vertex document vectors, if artifact exists
 -> BM25 + Vertex-vector hybrid retrieval
+-> patient-friendly answer formatter
 -> web_search_agent only after local retrieval misses
 ```
 
@@ -275,7 +321,17 @@ Local verification:
 ```text
 FaqTools Vertex-artifact path tests pass
 scripts compile
-full test suite: 31 passed
+full test suite: 35 passed
+```
+
+Current Cloud Shell verification:
+
+```text
+knowledge_source=imported_bundle
+PCOS/endometriosis -> WEB-DRMADHU-006, mode=hybrid_vertex
+IVF/ICSI -> WEB-DRMADHU-003, mode=hybrid_vertex
+fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
+/chat returns polished max-4-bullet patient answer
 ```
 
 ## Implemented Backend Unit: Metadata Enrichment
@@ -331,7 +387,7 @@ Local verification:
 enriched documents=8
 page_types={'homepage': 1, 'service': 6, 'blog': 1}
 metadata enrichment tests pass
-full test suite: 31 passed
+current full test suite after imported-bundle integration: 35 passed
 ```
 
 Existing Vertex embeddings remain compatible because vectors are keyed by `doc_id`. Rebuild embeddings only when document text changes or when metadata is intentionally added to embedding text.
@@ -382,8 +438,20 @@ Local verification:
 ```text
 API runtime tests pass
 API modules compile
-full test suite: 31 passed
+full test suite: 35 passed
+Cloud Shell API smoke passed
 ```
+
+Verified API routes:
+
+```text
+GET  /health
+GET  /metadata/status
+POST /chat
+GET  /retrieval/smoke
+```
+
+Note: `/metadata` is not a route. Use `/metadata/status`.
 
 ## Usecase Mapping
 | usecase-0 baseline | usecase-1 doctor appointment agent |
@@ -412,8 +480,11 @@ agent layer - verified locally and on Cloud Shell
 RAG corpus - generated and approved for drmadhupatil.com
 metadata enrichment - implemented and tested
 hybrid retrieval - implemented and tested
-API layer - implemented locally
-Cloud Run / Vertex deployment
+knowledge export/import from rag-usecase-0 - verified
+API layer - implemented and verified in Cloud Shell
+patient-friendly answer formatting - implemented and verified
+mobile frontend for main demo
+Cloud Run main demo deployment
 usecase-1 specialization
 ```
 

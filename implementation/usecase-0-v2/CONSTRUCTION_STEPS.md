@@ -580,8 +580,8 @@ fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
 ```text
 FaqTools connected to real Vertex embedding artifacts
 local fallback modes preserved
-31 tests passed locally
-Cloud Shell agent-level smoke pending
+Cloud Shell agent-level smoke verified
+35 tests passed after imported-bundle and answer-formatting updates
 ```
 
 ## Layer 4H - Metadata Enrichment
@@ -636,7 +636,7 @@ fertility preservation -> WEB-DRMADHU-005
 metadata enrichment implemented locally
 enriched corpus generated
 metadata-aware filtering verified locally
-Cloud Shell verification pending
+Cloud Shell verification complete
 ```
 
 ## Layer 5 - API Layer
@@ -684,9 +684,9 @@ PYTHONPATH=. uvicorn backend.api.app:app --host 0.0.0.0 --port 8080
 
 ### Status
 ```text
-API layer implemented locally
-31 tests passed locally
-Cloud Shell API smoke pending
+API layer implemented and verified in Cloud Shell
+35 tests passed
+API smoke passed
 ```
 
 ## Construction Order
@@ -736,4 +736,47 @@ Status:
 
 ```text
 deferred until baseline completion
+```
+
+## Latest Verified Checkpoint - 2026-06-28
+
+### Goal
+Record the current handoff-ready state after integrating the doctor RAG demo knowledge bundle into the main multi-agent backend.
+
+### Completed
+```text
+doctor RAG demo exported knowledge bundle
+main project imported bundle into backend/knowledge/latest
+runtime prefers imported bundle when corpus.jsonl and embeddings.jsonl exist
+patient-friendly answer formatter copied from rag-usecase-0 into main backend
+FastAPI /chat returns polished answer instead of raw RAG headings
+retrieval metadata remains available in data.retrieval
+```
+
+### Verified Cloud Shell Result
+```text
+pytest: 35 passed
+/metadata/status: knowledge_source=imported_bundle
+/retrieval/smoke: 3 correct service-page hits
+/chat: polished patient answer
+```
+
+### Current Running Path
+```text
+FastAPI
+-> SupportOrchestrator
+-> triage_agent
+-> FaqTools
+-> backend/knowledge/latest
+-> Vertex query embedding
+-> hybrid retrieval
+-> patient-friendly formatter
+```
+
+### Next Layer
+```text
+main mobile frontend
+Cloud Run deployment for main multi-agent demo
+web_search_agent gating tests
+later Vertex Session/Memory integration
 ```

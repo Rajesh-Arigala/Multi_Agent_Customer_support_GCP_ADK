@@ -206,9 +206,51 @@ PYTHONPATH=. python scripts/smoke_api_local.py
 Expected historical baseline:
 
 ```text
-31 tests passed
+35 tests passed
 API smoke passed
 agent Vertex retrieval smoke passed
+```
+
+Current verified Cloud Shell result:
+
+```text
+pytest: 35 passed
+metadata_status.knowledge_source=imported_bundle
+smoke_agent_vertex_retrieval:
+  PCOS/endometriosis -> WEB-DRMADHU-006, hybrid_vertex
+  IVF/ICSI -> WEB-DRMADHU-003, hybrid_vertex
+  fertility preservation -> WEB-DRMADHU-005, hybrid_vertex
+smoke_api_local:
+  health 200 ok
+  metadata 200 ok 8
+  chat 200 triage_agent WEB-DRMADHU-006 hybrid_vertex
+  retrieval_smoke 200 3
+```
+
+Manual API route checks:
+
+```bash
+curl http://localhost:8080/health
+curl http://localhost:8080/metadata/status
+curl http://localhost:8080/retrieval/smoke
+curl -X POST http://localhost:8080/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Can Dr Madhu help with PCOS and endometriosis?","user_id":"guest","session_id":"manual-test"}'
+```
+
+Expected `/chat` response shape:
+
+```text
+message: patient-friendly max-4-bullet answer
+data.retrieval.doc_id: WEB-DRMADHU-006
+data.retrieval.mode: hybrid_vertex
+data.retrieval.score: 1.0
+```
+
+Important route note:
+
+```text
+Use /metadata/status. /metadata is not currently registered.
 ```
 
 ## 9. Acceptance Criteria
@@ -221,6 +263,7 @@ Before main deployment:
 - Main tests pass.
 - Smoke tests pass.
 - Triage/RAG answers use local clinic knowledge first.
+- `/chat` returns the patient-friendly formatted answer, not raw RAG headings.
 - Web search is not used for clinic-owned questions unless policy allows it.
 
 ## 10. Deployment Rule
@@ -238,4 +281,29 @@ Deploy main project only after:
 
 ```text
 Main project consumes exported knowledge. It does not absorb the full RAG demo.
+```
+
+## 12. Cloud Shell ADC Reminder
+
+Live Vertex query embedding smoke tests require Application Default Credentials to be forced to user ADC in each fresh Cloud Shell session.
+
+Run before `smoke_agent_vertex_retrieval.py`, `smoke_api_local.py`, or manual `/chat` calls that trigger Vertex query embeddings:
+
+```bash
+gcloud auth application-default login \
+  --scopes=https://www.googleapis.com/auth/cloud-platform
+
+gcloud auth application-default set-quota-project multi-agent-adk-1
+
+export GOOGLE_CLOUD_PROJECT=multi-agent-adk-1
+export GOOGLE_GENAI_USE_VERTEXAI=true
+export GOOGLE_CLOUD_LOCATION=us-central1
+ADC_DIR="$(gcloud info --format='value(config.paths.global_config_dir)')"
+export GOOGLE_APPLICATION_CREDENTIALS="$ADC_DIR/application_default_credentials.json"
+```
+
+If this is skipped, the likely error is:
+
+```text
+google.auth.exceptions.RefreshError: Unexpected response from metadata server: service account info is missing 'email' field.
 ```

@@ -376,7 +376,8 @@ Local verification uses a fake embedding model so tests do not call Vertex:
 18 tests passed
 ```
 
-Cloud Shell verification remains pending until `build_vertex_embeddings.py` is run in GCP.
+Historical note: at this step, Cloud Shell verification still needed to run in GCP.
+This was completed later in Step 15 and again after the imported-bundle integration.
 
 Added `tests/test_script_syntax.py` after Cloud Shell exposed a syntax issue in the embedding build script. This compiles project scripts into a temporary pytest directory and prevents repo `__pycache__` churn.
 
@@ -432,7 +433,8 @@ fertility preservation -> WEB-DRMADHU-005 / service4
 18 tests passed
 ```
 
-Cloud Shell verification with real Vertex vectors remains pending.
+Historical note: real Vertex-vector verification was pending at this step.
+This was completed later in Step 15.
 
 ## Step 15 - Cloud Shell Verification For Vertex Embeddings And Ranking
 Verified the real Vertex embedding path and service-page ranking refinement in Cloud Shell.
@@ -552,8 +554,8 @@ fertility preservation -> WEB-DRMADHU-005, mode=hybrid_vertex
 Status:
 
 ```text
-Layer 4G implemented and locally verified.
-Cloud Shell agent-level smoke pending.
+Layer 4G was implemented and locally verified at this point.
+Cloud Shell agent-level smoke was completed later after imported-bundle wiring.
 ```
 
 ## Step 17 - Metadata Enrichment Layer
@@ -647,8 +649,8 @@ PYTHONPATH=. python -m pytest -p no:cacheprovider
 Status:
 
 ```text
-Layer 4H implemented and locally verified.
-Cloud Shell verification pending.
+Layer 4H was implemented and locally verified at this point.
+Cloud Shell verification was completed later after imported-bundle wiring.
 ```
 
 ## Future Note - Corpus Refresh Automation
@@ -711,6 +713,108 @@ hybrid retrieval smoke passes
 
 ## Status
 ```text
-Layer 4 complete locally.
-Pending Cloud Shell FAISS verification after git push/pull.
+Historical status before Cloud Shell completion.
+Superseded by Step 15, Step 18, and Step 19 below.
+```
+
+## Step 18 - Imported Doctor RAG Bundle Connected To Main Runtime
+
+Date: 2026-06-28
+
+Connected the standalone `rag-usecase-0` doctor demo knowledge bundle into the main multi-agent runtime.
+
+Imported destination:
+
+```text
+backend/knowledge/latest/
+```
+
+Required files:
+
+```text
+corpus.jsonl
+embeddings.jsonl
+metadata_manifest.json
+prompt_policy.md
+faq_exact_answers.py
+content_version.json
+README.md
+```
+
+Runtime behavior:
+
+```text
+if backend/knowledge/latest/corpus.jsonl and embeddings.jsonl exist:
+    use imported_bundle
+else:
+    fall back to checked-in rag_pipeline artifacts
+```
+
+Cloud Shell verification:
+
+```text
+knowledge_source=imported_bundle
+corpus_exists=True
+embeddings_exists=True
+```
+
+Test result:
+
+```text
+33 passed after imported-bundle runtime path fix
+35 passed after answer formatter integration
+```
+
+## Step 19 - Patient-Friendly Answer Formatter
+
+Date: 2026-06-28
+
+Copied and adapted the deterministic answer presentation layer from `rag-usecase-0` into the main backend.
+
+New file:
+
+```text
+backend/retrieval/answering.py
+```
+
+Updated:
+
+```text
+backend/tools/faq_tools.py
+tests/test_faq_tools_vertex_mode.py
+```
+
+Answer behavior:
+
+```text
+maximum 4 bullets
+warm clinic-assistant tone
+icons/smileys supported
+Dr. Madhu Patil’s Clinic phrasing for services
+Dr. Madhu Patil’s team phrasing for appointment/help coordination
+raw RAG headings removed
+source and grounding score retained in data.retrieval
+```
+
+Cloud Shell verification:
+
+```text
+pytest: 35 passed
+smoke_agent_vertex_retrieval.py passed
+smoke_api_local.py passed
+manual /chat returned polished answer
+```
+
+Manual `/chat` example:
+
+```text
+🩺 **Yes.** Dr. Madhu Patil’s Clinic offers Endometriosis & PCOS.
+🔎 This is relevant to treatments such as pcos care, endometriosis care, and hormonal evaluation and conditions such as pcos, endometriosis, irregular periods, and hormonal issues.
+📅 For personal guidance, __booking a consultation__ is the best next step.
+```
+
+Status:
+
+```text
+Layer 4 RAG retrieval and answer presentation are verified for the main backend.
 ```

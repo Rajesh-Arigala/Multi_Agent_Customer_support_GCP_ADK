@@ -83,7 +83,8 @@ PYTHONPATH=. python -m pytest -p no:cacheprovider
 Result:
 
 ```text
-31 passed
+31 passed at initial Layer 5 construction
+35 passed after imported-bundle integration and answer formatting
 ```
 
 API syntax verification:
@@ -132,6 +133,54 @@ curl -X POST http://127.0.0.1:8080/chat   -H "Content-Type: application/json"   
 ## Status
 
 ```text
-Layer 5 API implemented and locally verified.
-Cloud Shell API dependency install and smoke pending.
+Historical Layer 5 construction status: initially implemented and locally verified.
+Superseded by the Cloud Shell verification update below.
+```
+
+## Update - Cloud Shell Verification Complete
+
+Date: 2026-06-28
+
+After importing the doctor RAG knowledge bundle and wiring the runtime to `backend/knowledge/latest`, the API layer was verified in Cloud Shell.
+
+Verification:
+
+```text
+pytest: 35 passed
+smoke_api_local.py:
+  health 200 ok
+  metadata 200 ok 8
+  chat 200 triage_agent WEB-DRMADHU-006 hybrid_vertex
+  retrieval_smoke 200 3
+```
+
+Manual route checks:
+
+```text
+GET /health -> ok
+GET /metadata/status -> knowledge_source=imported_bundle
+GET /retrieval/smoke -> PCOS, IVF, and fertility preservation route correctly
+POST /chat -> polished patient-facing answer
+```
+
+Important route note:
+
+```text
+/metadata/status is the metadata route.
+/metadata is not registered.
+```
+
+Current `/chat` response quality:
+
+```text
+raw RAG headings removed
+patient-friendly bullet answer returned
+retrieval proof remains in data.retrieval
+```
+
+Current status:
+
+```text
+Layer 5 API verified in Cloud Shell.
+Ready for main frontend and Cloud Run demo deployment.
 ```
