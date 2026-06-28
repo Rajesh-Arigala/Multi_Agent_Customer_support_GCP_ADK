@@ -27,12 +27,41 @@ function addMessage(role, text) {
   const bubble = document.createElement("div");
   bubble.className = "bubble";
   const paragraph = document.createElement("p");
-  paragraph.textContent = text;
+  renderMessageText(paragraph, text);
   bubble.appendChild(paragraph);
   article.appendChild(bubble);
   messages.appendChild(article);
   messages.scrollTop = messages.scrollHeight;
   return paragraph;
+}
+
+function renderMessageText(target, text) {
+  target.replaceChildren();
+  const lines = String(text || "").split("\n");
+  lines.forEach((line, lineIndex) => {
+    if (lineIndex > 0) target.appendChild(document.createElement("br"));
+    appendInlineFormatting(target, line);
+  });
+}
+
+function appendInlineFormatting(target, text) {
+  const pattern = /(\*\*[^*]+\*\*|__[^_]+__)/g;
+  let cursor = 0;
+  for (const match of text.matchAll(pattern)) {
+    if (match.index > cursor) {
+      target.appendChild(document.createTextNode(text.slice(cursor, match.index)));
+    }
+
+    const token = match[0];
+    const element = document.createElement(token.startsWith("**") ? "strong" : "u");
+    element.textContent = token.slice(2, -2);
+    target.appendChild(element);
+    cursor = match.index + token.length;
+  }
+
+  if (cursor < text.length) {
+    target.appendChild(document.createTextNode(text.slice(cursor)));
+  }
 }
 
 function updateSource(retrieval) {
@@ -70,10 +99,10 @@ form.addEventListener("submit", async (event) => {
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.detail || "Chat request failed");
-    pending.textContent = payload.message || "I could not prepare an answer for that.";
+    renderMessageText(pending, payload.message || "I could not prepare an answer for that.");
     updateSource(payload.data && payload.data.retrieval);
   } catch (error) {
-    pending.textContent = `Sorry, the assistant could not respond: ${error.message}`;
+    renderMessageText(pending, `Sorry, the assistant could not respond: ${error.message}`);
     updateSource(null);
   } finally {
     sendButton.disabled = false;

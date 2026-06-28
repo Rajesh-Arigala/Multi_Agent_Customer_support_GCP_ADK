@@ -3,6 +3,7 @@ from typing import Any
 from backend.models import AgentResponse
 from backend.services.audit import AuditLogService
 from backend.services.memory import MemoryService
+from backend.tools.appointment_tools import AppointmentTools, extract_appointment_details, missing_appointment_fields
 from backend.tools.escalation_tools import EscalationTools
 from backend.tools.faq_tools import FaqTools
 from backend.tools.ticket_tools import TicketTools
@@ -13,12 +14,26 @@ URGENT_WORDS = {"urgent", "critical", "angry", "frustrated", "broken", "down", "
 CREATE_WORDS = {"create", "open", "raise", "file", "ticket", "issue", "problem", "bug", "error"}
 STATUS_WORDS = {"status", "check", "lookup", "track", "progress"}
 UPDATE_WORDS = {"resolved", "close", "closed", "fix", "fixed", "update"}
+APPOINTMENT_WORDS = {
+    "appointment",
+    "book",
+    "booking",
+    "callback",
+    "call back",
+    "consultation",
+    "consult",
+    "meet doctor",
+    "video consultation",
+    "visit",
+}
+CANCEL_WORDS = {"cancel", "cancelled"}
 
 
 class SupportOrchestrator:
     def __init__(
         self,
         faq_tools: FaqTools,
+        appointment_tools: AppointmentTools,
         ticket_tools: TicketTools,
         escalation_tools: EscalationTools,
         web_search_tools: WebSearchTools,
@@ -26,6 +41,7 @@ class SupportOrchestrator:
         audit_log: AuditLogService,
     ):
         self.faq_tools = faq_tools
+        self.appointment_tools = appointment_tools
         self.ticket_tools = ticket_tools
         self.escalation_tools = escalation_tools
         self.web_search_tools = web_search_tools
@@ -37,8 +53,18 @@ class SupportOrchestrator:
         memories = self.memory_service.preload_memory(user_id)
         self.memory_service.save_session_turn(session_id, user_id, "user", message)
 
+        appointment_id = self.appointment_tools.extract_appointment_id(message)
+
         if _has_any(normalized, URGENT_WORDS):
             response = self._handle_escalation(message, user_id, session_id)
+        elif appointment_id and _has_any(normalized, CANCEL_WORDS):
+            response = self._handle_appointment_cancel(message, user_id, session_id)
+        elif appointment_id and _has_any(normalized, UPDATE_WORDS):
+            response = self._handle_appointment_update(message, user_id, session_id)
+        elif appointment_id or (_has_any(normalized, STATUS_WORDS) and "appointment" in normalized):
+            response = self._handle_appointment_status(message, user_id, session_id)
+        elif _has_any(normalized, APPOINTMENT_WORDS):
+            response = self._handle_appointment_create(message, user_id, session_id)
         elif self.ticket_tools.extract_ticket_id(message) and _has_any(normalized, UPDATE_WORDS):
             response = self._handle_ticket_update(message, user_id, session_id)
         elif self.ticket_tools.extract_ticket_id(message) or _has_any(normalized, STATUS_WORDS):
@@ -63,6 +89,51 @@ class SupportOrchestrator:
         web_result = self.web_search_tools.google_search(message)
         self.audit_log.log_event(user_id, session_id, "web_search_fallback", "WebSearch", "", message)
         return AgentResponse(web_result["status"], "web_search_agent", web_result["answer"], web_result)
+
+    def _handle_appointment_create(self, message: str, user_id: str, session_id: str) -> AgentResponse:
+        details = extract_appointment_details(message)
+        result = self.appointment_tools.create_appointment(user_id, message, details)
+        self.audit_log.log_event(
+            user_id,
+            session_id,
+            "appointment_requested",
+            "Appointments",
+            result["appointment_id"],
+            message,
+        )
+        return AgentResponse(
+            result["status"],
+            "appointment_agent",
+            appointment_created_message(result),
+            result,
+        )
+
+    def _handle_appointment_status(self, message: str, user_id: str, session_id: str) -> AgentResponse:
+        appointment_id = self.appointment_tools.extract_appointment_id(message)
+        if not appointment_id:
+            return AgentResponse("error", "appointment_agent", "Please include an appointment ID like APT-1234ABCD.", {})
+        result = self.appointment_tools.check_appointment_status(appointment_id)
+        self.audit_log.log_event(user_id, session_id, "appointment_status_checked", "Appointments", appointment_id, message)
+        if result["status"] != "success":
+            return AgentResponse("error", "appointment_agent", result["message"], result)
+        return AgentResponse("success", "appointment_agent", appointment_status_message(result["appointment"]), result)
+
+    def _handle_appointment_update(self, message: str, user_id: str, session_id: str) -> AgentResponse:
+        appointment_id = self.appointment_tools.extract_appointment_id(message)
+        details = extract_appointment_details(message)
+        result = self.appointment_tools.update_appointment(appointment_id, details)
+        self.audit_log.log_event(user_id, session_id, "appointment_updated", "Appointments", appointment_id or "", message)
+        if result["status"] != "success":
+            return AgentResponse("error", "appointment_agent", result["message"], result)
+        return AgentResponse("success", "appointment_agent", appointment_updated_message(result["appointment"]), result)
+
+    def _handle_appointment_cancel(self, message: str, user_id: str, session_id: str) -> AgentResponse:
+        appointment_id = self.appointment_tools.extract_appointment_id(message)
+        result = self.appointment_tools.cancel_appointment(appointment_id, message)
+        self.audit_log.log_event(user_id, session_id, "appointment_cancelled", "Appointments", appointment_id or "", message)
+        if result["status"] != "success":
+            return AgentResponse("error", "appointment_agent", result["message"], result)
+        return AgentResponse("success", "appointment_agent", appointment_cancelled_message(result["appointment"]), result)
 
     def _handle_ticket_create(self, message: str, user_id: str, session_id: str) -> AgentResponse:
         result = self.ticket_tools.create_ticket(user_id, message, classify_priority(message))
@@ -119,11 +190,50 @@ def classify_priority(message: str) -> str:
     return "low"
 
 
+def appointment_created_message(result: dict[str, Any]) -> str:
+    appointment = result["appointment"]
+    missing = result.get("missing_fields") or missing_appointment_fields(appointment)
+    lines = [
+        f"📅 Appointment request {appointment['appointment_id']} has been shared for registration desk review.",
+        "🩺 Dr. Madhu Patil's Clinic team will confirm the time and details before the appointment is final.",
+    ]
+    if appointment.get("consultation_type") == "video_consultation":
+        lines.append("🎥 For video consultation, the desk will confirm the slot and link after review.")
+    if missing:
+        lines.append("📝 Please share missing details when convenient: " + ", ".join(missing) + ".")
+    return "\n".join(lines[:4])
+
+
+def appointment_status_message(appointment: dict[str, Any]) -> str:
+    return (
+        f"📅 Appointment {appointment['appointment_id']} is currently {appointment.get('status', 'requested')}.\n"
+        f"🩺 Service interest: {appointment.get('service_interest') or 'not specified'}.\n"
+        "📞 The registration desk will confirm final timing with you."
+    )
+
+
+def appointment_updated_message(appointment: dict[str, Any]) -> str:
+    return (
+        f"📅 Appointment {appointment['appointment_id']} has been updated.\n"
+        f"🩺 Current status: {appointment.get('status', 'requested')}.\n"
+        "📞 The registration desk will use the latest details for follow-up."
+    )
+
+
+def appointment_cancelled_message(appointment: dict[str, Any]) -> str:
+    return (
+        f"📅 Appointment {appointment['appointment_id']} has been marked cancelled.\n"
+        "🩺 Dr. Madhu Patil's Clinic team can help create a fresh request whenever needed."
+    )
+
+
 def extract_facts(message: str, response: AgentResponse) -> list[str]:
     facts = []
     data = response.data
     if data.get("ticket_id"):
         facts.append(f"Latest ticket is {data['ticket_id']}.")
+    if data.get("appointment_id"):
+        facts.append(f"Latest appointment request is {data['appointment_id']}.")
     if data.get("escalation_id"):
         facts.append(f"Latest escalation is {data['escalation_id']}.")
     if "my name is " in message.lower():
@@ -135,4 +245,3 @@ def extract_facts(message: str, response: AgentResponse) -> list[str]:
 
 def _has_any(text: str, words: set[str]) -> bool:
     return any(word in text for word in words)
-

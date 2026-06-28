@@ -42,6 +42,49 @@ def test_ticket_create_and_status_routes_to_ticket_agent(tmp_path):
     assert status["data"]["ticket"]["ticket_id"] == ticket_id
 
 
+def test_appointment_request_routes_to_appointment_agent(tmp_path):
+    store = seed_store(tmp_path)
+    orchestrator = build_support_orchestrator(store)
+
+    response = orchestrator.handle_message(
+        "I want to book a video consultation for PCOS tomorrow morning. My name is Anjali and phone is 9876543210.",
+        user_id="guest",
+        session_id="s1",
+    )
+
+    appointment = response["data"]["appointment"]
+    assert response["agent"] == "appointment_agent"
+    assert response["data"]["appointment_id"].startswith("APT-")
+    assert appointment["consultation_type"] == "video_consultation"
+    assert appointment["service_interest"] == "PCOS-related consultation"
+    assert appointment["status"] == "requested"
+    assert appointment["desk_notified"] == "placeholder"
+    assert store.list_rows("appointments")
+    assert store.list_rows("leads")
+    assert store.list_rows("audit_logs")
+
+
+def test_appointment_lifecycle_status_update_cancel(tmp_path):
+    store = seed_store(tmp_path)
+    orchestrator = build_support_orchestrator(store)
+
+    created = orchestrator.handle_message(
+        "Book an appointment for IVF next week evening. My name is Meera and phone is 9876543210.",
+        user_id="guest",
+        session_id="s1",
+    )
+    appointment_id = created["data"]["appointment_id"]
+    status = orchestrator.handle_message(f"Check appointment {appointment_id}", user_id="guest", session_id="s1")
+    updated = orchestrator.handle_message(f"Update {appointment_id} to Friday morning", user_id="guest", session_id="s1")
+    cancelled = orchestrator.handle_message(f"Cancel appointment {appointment_id}", user_id="guest", session_id="s1")
+
+    assert status["agent"] == "appointment_agent"
+    assert status["data"]["appointment"]["appointment_id"] == appointment_id
+    assert updated["agent"] == "appointment_agent"
+    assert cancelled["agent"] == "appointment_agent"
+    assert cancelled["data"]["appointment"]["status"] == "cancelled"
+
+
 def test_urgent_message_creates_ticket_and_escalation(tmp_path):
     store = seed_store(tmp_path)
     orchestrator = build_support_orchestrator(store)
@@ -62,4 +105,3 @@ def test_memory_saves_ticket_fact(tmp_path):
     response = orchestrator.handle_message("Do you remember anything?", user_id="guest", session_id="s1")
 
     assert response["memory"]["loaded"]
-
