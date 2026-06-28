@@ -359,6 +359,7 @@ service: doctor-assistant-usecase-0-v2
 project: multi-agent-adk-1
 region: us-central1
 service account: multi-agent-backend-sa@multi-agent-adk-1.iam.gserviceaccount.com
+storage backend: google_sheets
 ```
 
 If deploy says no active account:
@@ -424,6 +425,21 @@ chat ok WEB-DRMADHU-006 1.0
 ```
 
 If smoke gets `403 Forbidden`, rerun Section 12.
+
+## 14A. Smoke Deployed Appointment Lifecycle
+
+```bash
+bash scripts/smoke_deployed_appointment_lifecycle.sh "$SERVICE_URL"
+```
+
+Expected:
+
+```text
+appointment create ok APT-...
+appointment status ok APT-...
+```
+
+Because Cloud Run uses `STORAGE_BACKEND=google_sheets`, the created appointment should appear in the `Appointments` tab.
 
 ## 15. Manual Deployed Endpoint Checks
 

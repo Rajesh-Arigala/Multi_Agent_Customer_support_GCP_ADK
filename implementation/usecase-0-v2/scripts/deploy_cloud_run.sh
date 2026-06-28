@@ -37,7 +37,7 @@ gcloud run deploy "$SERVICE_NAME" \
   --memory 2Gi \
   --cpu 2 \
   --timeout 300 \
-  --set-env-vars "GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=$REGION,GOOGLE_GENAI_USE_VERTEXAI=true,STORAGE_BACKEND=csv,DATA_DIR=/tmp/usecase0-v2-data,GOOGLE_SHEETS_ID=$GOOGLE_SHEETS_ID,EMBEDDING_MODEL_NAME=text-embedding-005"
+  --set-env-vars "GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=$REGION,GOOGLE_GENAI_USE_VERTEXAI=true,STORAGE_BACKEND=google_sheets,GOOGLE_SHEETS_ID=$GOOGLE_SHEETS_ID,EMBEDDING_MODEL_NAME=text-embedding-005"
 
 SERVICE_URL="$(gcloud run services describe "$SERVICE_NAME" --project "$PROJECT_ID" --region "$REGION" --format='value(status.url)')"
 echo "Deployed URL: $SERVICE_URL"
