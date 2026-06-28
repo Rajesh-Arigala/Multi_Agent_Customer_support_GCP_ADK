@@ -44,6 +44,10 @@ Detailed setup record:
 
 [GCP_FOUNDATION.md](./GCP_FOUNDATION.md)
 
+Cloud Shell command runbook:
+
+[CLOUD_SHELL_COMMANDS_RUNBOOK.md](./CLOUD_SHELL_COMMANDS_RUNBOOK.md)
+
 Layer-by-layer construction guide:
 
 [CONSTRUCTION_STEPS.md](./CONSTRUCTION_STEPS.md)

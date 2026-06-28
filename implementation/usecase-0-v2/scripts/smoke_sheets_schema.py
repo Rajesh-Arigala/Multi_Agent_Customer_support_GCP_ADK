@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from backend.api.runtime import build_runtime_store
+from backend.config import GOOGLE_SHEETS_ID
+from backend.storage.google_sheets_store import GoogleSheetsStore
 
 
 REQUIRED_HEADERS = {
@@ -41,11 +43,23 @@ REQUIRED_HEADERS = {
 
 def main() -> None:
     store = build_runtime_store()
+    if isinstance(store, GoogleSheetsStore):
+        print("spreadsheet", GOOGLE_SHEETS_ID)
+        print("tabs", ", ".join(list_sheet_titles(store)) or "none")
     for table, required in REQUIRED_HEADERS.items():
-        rows = store.list_rows(table)
+        try:
+            rows = store.list_rows(table)
+        except Exception as exc:
+            print(table, "error", str(exc).splitlines()[0])
+            continue
         headers = set(rows[0].keys()) if rows else set()
         missing = sorted(required - headers)
         print(table, "rows", len(rows), "missing_headers", ",".join(missing) if missing else "none")
+
+
+def list_sheet_titles(store: GoogleSheetsStore) -> list[str]:
+    result = store.service.spreadsheets().get(spreadsheetId=store.spreadsheet_id).execute()
+    return [sheet["properties"]["title"] for sheet in result.get("sheets", [])]
 
 
 if __name__ == "__main__":
