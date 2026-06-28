@@ -1,4 +1,5 @@
 from backend.api.runtime import build_runtime_store, health_payload, metadata_status, retrieval_smoke_queries
+from backend.config import BASE_DIR, KNOWLEDGE_DIR
 from backend.storage import CsvStore
 
 
@@ -21,6 +22,10 @@ def test_metadata_status_reports_enriched_corpus():
     assert payload["document_count"] == 8
     assert payload["metadata_version"] == "v1_business_rules"
     assert payload["page_types"]["service"] == 6
+
+
+def test_default_knowledge_dir_matches_import_destination():
+    assert KNOWLEDGE_DIR == BASE_DIR / "backend" / "knowledge" / "latest"
 
 
 def test_retrieval_smoke_queries_are_business_representative():

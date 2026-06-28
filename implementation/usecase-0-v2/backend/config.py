@@ -12,7 +12,7 @@ GOOGLE_SHEETS_ID = os.getenv("GOOGLE_SHEETS_ID", "1zwyHaspgLVjE5Xax0c9riylI6CBir
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR / "data"))
-KNOWLEDGE_DIR = Path(os.getenv("KNOWLEDGE_DIR", BASE_DIR / "knowledge" / "latest"))
+KNOWLEDGE_DIR = Path(os.getenv("KNOWLEDGE_DIR", BASE_DIR / "backend" / "knowledge" / "latest"))
 
 SHEET_TABS = DEFAULT_SHEET_TABS
 
