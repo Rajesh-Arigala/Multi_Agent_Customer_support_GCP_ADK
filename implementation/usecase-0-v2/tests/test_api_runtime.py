@@ -56,3 +56,43 @@ def test_build_runtime_store_rejects_unknown_backend(monkeypatch):
         assert "Unsupported STORAGE_BACKEND" in str(exc)
     else:
         raise AssertionError("Expected unsupported storage backend to raise ValueError")
+
+
+def test_app_serves_frontend_and_chat_contract(monkeypatch, tmp_path):
+    from fastapi.testclient import TestClient
+
+    monkeypatch.setenv("DATA_DIR", str(tmp_path / "api-data"))
+    from backend.api.app import create_app
+
+    app = create_app(CsvStore(tmp_path))
+    client = TestClient(app)
+
+    index = client.get("/")
+    assert index.status_code == 200
+    assert "Dr. Madhu Patil's Clinic" in index.text
+
+    static_asset = client.get("/static/app.js")
+    assert static_asset.status_code == 200
+    assert "/chat" in static_asset.text
+
+    chat = client.post(
+        "/chat",
+        json={
+            "message": "Can Dr Madhu help with PCOS and endometriosis?",
+            "user_id": "guest",
+            "session_id": "test-chat-contract",
+        },
+    )
+    payload = chat.json()
+    answer = payload["message"]
+    retrieval = payload["data"]["retrieval"]
+
+    assert chat.status_code == 200
+    assert payload["agent"] == "triage_agent"
+    assert "Dr. Madhu Patil" in answer
+    assert "Dr. Madhu Patil's Clinic" in answer or "Dr. Madhu Patil’s Clinic" in answer
+    assert len([line for line in answer.splitlines() if line.strip()]) <= 4
+    assert "Question:" not in answer
+    assert "Answer:" not in answer
+    assert retrieval["score"] is not None
+    assert retrieval["doc_id"]

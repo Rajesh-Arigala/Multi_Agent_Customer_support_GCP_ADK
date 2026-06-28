@@ -18,7 +18,7 @@ FastAPI /chat
 -> JSON response with retrieval metadata
 ```
 
-This is enough for a backend/API demo. The full target multi-agent architecture is not fully complete yet because Cloud Run deployment, mobile frontend, Vertex Session Service, and Vertex Memory Bank are still future layers.
+This is now packaged as a single-service demo: FastAPI serves the backend API and the mobile-friendly chat UI, with Docker and Cloud Run scripts added for Cloud Shell deployment. The actual Cloud Run deploy still needs to be run from Cloud Shell where `backend/knowledge/latest` is present.
 
 ## What Is Running
 
@@ -86,12 +86,14 @@ Imported bundle runtime detection       ✅ complete
 Vertex embedding query path             ✅ complete, requires ADC in Cloud Shell
 Patient-friendly answer formatter       ✅ complete
 FastAPI backend                         ✅ complete locally / Cloud Shell
+mobile frontend for main demo           ✅ implemented in frontend/
+Docker/Cloud Run packaging              ✅ implemented
+deployed endpoint smoke script           ✅ implemented
 ticket_agent                            🟡 implemented, basic tests pass
 escalation_agent                        🟡 implemented, basic tests pass
 web_search_agent fallback               🟡 exists, needs stricter clinic-owned gating
 local memory and audit                  🟡 implemented locally
-mobile frontend for main demo           ❌ next
-Cloud Run deployment for main demo      ❌ next
+Cloud Run deployment for main demo      🟡 run scripts/deploy_cloud_run.sh in Cloud Shell
 VertexAiSessionService                  ❌ later
 VertexAiMemoryBankService               ❌ later
 ```
@@ -149,22 +151,54 @@ curl -X POST http://localhost:8080/chat \
   -d '{"message":"Can Dr Madhu help with PCOS and endometriosis?","user_id":"guest","session_id":"manual-test"}'
 ```
 
+## Cloud Run Deployment
+
+Deployment files now exist:
+
+```text
+Dockerfile
+.dockerignore
+frontend/index.html
+frontend/static/app.js
+frontend/static/styles.css
+scripts/deploy_cloud_run.sh
+scripts/smoke_deployed_cloud_run.sh
+```
+
+Run from Cloud Shell after confirming the imported bundle exists:
+
+```bash
+cd ~/Multi_Agent_Customer_support_GCP_ADK/implementation/usecase-0-v2
+test -f backend/knowledge/latest/corpus.jsonl
+test -f backend/knowledge/latest/embeddings.jsonl
+
+bash scripts/deploy_cloud_run.sh
+```
+
+Smoke the deployed URL:
+
+```bash
+SERVICE_URL="$(gcloud run services describe doctor-assistant-usecase-0-v2 \
+  --project multi-agent-adk-1 \
+  --region us-central1 \
+  --format='value(status.url)')"
+
+bash scripts/smoke_deployed_cloud_run.sh "$SERVICE_URL"
+```
+
 ## Next Work
 
 Recommended next sequence:
 
 ```text
-1. Add a mobile-friendly frontend to main usecase-0-v2.
-2. Keep the same polished answer UI pattern from rag-usecase-0.
-3. Containerize main API + frontend for Cloud Run.
-4. Deploy the main multi-agent demo to Cloud Run.
-5. Run doctor/patient test questions on the deployed URL.
-6. Add stricter web_search_agent gating for clinic-owned questions.
-7. Later integrate real Vertex Session/Memory services.
+1. Run Cloud Run deployment from Cloud Shell.
+2. Run deployed smoke checks against /health, /metadata/status, /retrieval/smoke, and /chat.
+3. Add stricter web_search_agent gating for clinic-owned questions.
+4. Later integrate real Vertex Session/Memory services.
 ```
 
 ## One-Line Handoff
 
 ```text
-The main backend RAG path is verified; the next deliverable is a mobile frontend and Cloud Run deployment for the main multi-agent demo.
+The main backend RAG path, frontend, Docker packaging, and Cloud Run scripts are ready; next run the deploy and smoke scripts from Cloud Shell.
 ```

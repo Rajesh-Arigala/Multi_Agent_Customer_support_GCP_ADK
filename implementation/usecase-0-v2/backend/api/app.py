@@ -3,14 +3,23 @@ from __future__ import annotations
 from typing import Any
 
 from backend.api.runtime import build_runtime_store, health_payload, metadata_status, retrieval_smoke_queries
+from backend.config import BASE_DIR
 from backend.factory import build_support_orchestrator
 from backend.storage import StorageService
 
 try:
     from fastapi import FastAPI, HTTPException
+    from fastapi.responses import FileResponse
+    from fastapi.staticfiles import StaticFiles
 except ImportError:  # pragma: no cover - exercised in environments without API deps
     FastAPI = None
+    FileResponse = None
     HTTPException = None
+    StaticFiles = None
+
+
+STATIC_DIR = BASE_DIR / "frontend" / "static"
+INDEX_PATH = BASE_DIR / "frontend" / "index.html"
 
 
 def create_app(store: StorageService | None = None):
@@ -20,6 +29,15 @@ def create_app(store: StorageService | None = None):
     runtime_store = store or build_runtime_store()
     orchestrator = build_support_orchestrator(runtime_store)
     app = FastAPI(title="Usecase 0 Multi-Agent Backend", version="0.1.0")
+
+    if StaticFiles is not None and STATIC_DIR.exists():
+        app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+    @app.get("/", include_in_schema=False)
+    def index():
+        if FileResponse is None or not INDEX_PATH.exists():
+            raise HTTPException(status_code=404, detail="frontend is not packaged")
+        return FileResponse(INDEX_PATH)
 
     @app.get("/health")
     def health() -> dict[str, Any]:

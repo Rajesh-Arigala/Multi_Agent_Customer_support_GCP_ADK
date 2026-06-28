@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dr. Madhu Patil Clinic Assistant</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="chat-panel" aria-label="Clinic chat assistant">
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">Multi-agent doctor assistant</p>
+            <h1>Dr. Madhu Patil's Clinic</h1>
+          </div>
+          <div class="status-pill" id="serviceStatus">Checking</div>
+        </header>
+
+        <div class="messages" id="messages" aria-live="polite">
+          <article class="message assistant">
+            <div class="bubble">
+              <p>Hello. I can help with IVF, ICSI, IUI, PCOS, endometriosis, fertility preservation, and appointments.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="source-strip" id="sourceStrip" hidden>
+          <span id="sourceTitle"></span>
+          <span id="sourceScore"></span>
+        </div>
+
+        <form class="composer" id="chatForm">
+          <label class="sr-only" for="messageInput">Message</label>
+          <textarea id="messageInput" name="message" rows="1" placeholder="Ask about PCOS, IVF, ICSI, appointments..." required></textarea>
+          <button type="submit" id="sendButton" aria-label="Send message">Send</button>
+        </form>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

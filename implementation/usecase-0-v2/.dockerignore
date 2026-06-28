@@ -1,0 +1,13 @@
+.git
+.pytest_cache
+__pycache__
+*.pyc
+.DS_Store
+data
+tests
+scripts
+*.md
+rag_pipeline/drmadhupatil_corpus/02_output_raw_html_rendered
+rag_pipeline/drmadhupatil_corpus/03_output_structured_json
+rag_pipeline/drmadhupatil_corpus/04_output_clean_json
+rag_pipeline/drmadhupatil_corpus/05_output_clean_text

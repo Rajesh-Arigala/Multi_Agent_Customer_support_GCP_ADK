@@ -35,6 +35,8 @@ operational Sheet tabs created
 doctor RAG knowledge bundle imported into backend/knowledge/latest
 main backend detects imported_bundle as the active knowledge source
 patient-friendly answer formatter active in /chat responses
+mobile-friendly frontend served by FastAPI at /
+Dockerfile and Cloud Run deploy/smoke scripts added
 Cloud Shell verification: 35 tests passed
 ```
 
@@ -115,9 +117,53 @@ ticket_agent                  implemented, basic tests pass
 escalation_agent              implemented, basic tests pass
 web_search_agent fallback     exists, needs stricter gating
 local memory/audit            implemented locally
+frontend chat UI              implemented
+Docker/Cloud Run scripts      implemented
 Vertex Session/Memory Bank    not integrated yet
-Cloud Run main demo           next
-mobile frontend               next
+Cloud Run main demo           ready to deploy from Cloud Shell
+```
+
+## Main Demo Deployment
+
+The complete same-service demo is packaged as:
+
+```text
+FastAPI backend API
+-> multi-agent orchestrator
+-> imported RAG knowledge bundle
+-> Vertex hybrid retrieval
+-> patient-friendly answer formatter
+-> frontend chat UI served at /
+```
+
+Deploy from Cloud Shell after the imported bundle is present in `backend/knowledge/latest`:
+
+```bash
+cd ~/Multi_Agent_Customer_support_GCP_ADK/implementation/usecase-0-v2
+test -f backend/knowledge/latest/corpus.jsonl
+test -f backend/knowledge/latest/embeddings.jsonl
+
+bash scripts/deploy_cloud_run.sh
+```
+
+Smoke the deployed service:
+
+```bash
+SERVICE_URL="$(gcloud run services describe doctor-assistant-usecase-0-v2 \
+  --project multi-agent-adk-1 \
+  --region us-central1 \
+  --format='value(status.url)')"
+
+bash scripts/smoke_deployed_cloud_run.sh "$SERVICE_URL"
+```
+
+The smoke script verifies:
+
+```text
+GET  /health
+GET  /metadata/status
+GET  /retrieval/smoke
+POST /chat with "Can Dr Madhu help with PCOS and endometriosis?"
 ```
 
 ## Implemented Backend Unit: Storage Layer
