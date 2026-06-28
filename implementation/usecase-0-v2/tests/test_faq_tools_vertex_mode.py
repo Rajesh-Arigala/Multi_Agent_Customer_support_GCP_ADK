@@ -60,6 +60,9 @@ def test_faq_tools_uses_vertex_artifact_when_available(tmp_path):
     assert result["status"] == "success"
     assert result["faq_id"] == "WEB-006"
     assert result["retrieval"]["mode"] == "hybrid_vertex"
+    assert "Dr. Madhu Patil’s Clinic" in result["answer"]
+    assert "Headings:" not in result["answer"]
+    assert len(result["answer"].splitlines()) <= 4
 
 
 def test_faq_tools_defaults_to_imported_knowledge_bundle_when_complete(tmp_path, monkeypatch):
@@ -84,6 +87,47 @@ def test_faq_tools_defaults_to_imported_knowledge_bundle_when_complete(tmp_path,
     assert result["status"] == "success"
     assert result["faq_id"] == "WEB-006"
     assert result["retrieval"]["mode"] == "hybrid_vertex"
+
+
+def test_faq_tools_handles_greeting_without_raw_retrieval(tmp_path):
+    corpus_path = tmp_path / "corpus.jsonl"
+    embeddings_path = tmp_path / "embeddings.jsonl"
+    write_corpus(corpus_path)
+    write_embeddings(embeddings_path)
+    tool = FaqTools(
+        CsvStore(tmp_path / "store"),
+        corpus_path=corpus_path,
+        embeddings_path=embeddings_path,
+        embedding_model=FakeEmbeddingModel(),
+    )
+
+    result = tool.retrieve_faq_answer("hi")
+
+    assert result["status"] == "success"
+    assert result["faq_id"] == "assistant"
+    assert "Hello" in result["answer"]
+    assert len(result["answer"].splitlines()) <= 4
+
+
+def test_faq_tools_uses_exact_patient_faq_answer(tmp_path):
+    corpus_path = tmp_path / "corpus.jsonl"
+    embeddings_path = tmp_path / "embeddings.jsonl"
+    write_corpus(corpus_path)
+    write_embeddings(embeddings_path)
+    tool = FaqTools(
+        CsvStore(tmp_path / "store"),
+        corpus_path=corpus_path,
+        embeddings_path=embeddings_path,
+        embedding_model=FakeEmbeddingModel(),
+    )
+
+    result = tool.retrieve_faq_answer("How successful is IVF?")
+
+    assert result["status"] == "success"
+    assert result["faq_id"] == "WEB-DRMADHU-001"
+    assert "**IVF success**" in result["answer"]
+    assert "website" not in result["answer"].lower()
+    assert len(result["answer"].splitlines()) <= 4
 
 
 def test_faq_tools_falls_back_when_embedding_artifact_missing(tmp_path):

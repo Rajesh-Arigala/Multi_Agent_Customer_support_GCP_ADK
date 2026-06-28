@@ -3,6 +3,7 @@ from typing import Any
 
 from backend.config import EMBEDDING_MODEL_NAME, KNOWLEDGE_DIR, LOCATION, PROJECT_ID
 from backend.retrieval import HybridRetriever, documents_from_faq_rows, load_jsonl_documents
+from backend.retrieval.answering import format_answer, not_sure_answer, retrieval_for_document, special_answer
 from backend.retrieval.filters import infer_metadata_filters
 from backend.retrieval.embedding_store import load_embedding_records
 from backend.retrieval.vertex_embeddings import VertexTextEmbeddingModel
@@ -84,6 +85,19 @@ class FaqTools:
         if not documents:
             return {"status": "not_found", "message": "No FAQ or website corpus is available."}
 
+        if not using_faq_rows:
+            answer = special_answer(query)
+            if answer is not None:
+                text, doc_id = answer
+                document = _document_by_id(documents, doc_id)
+                return {
+                    "status": "success",
+                    "faq_id": doc_id or "assistant",
+                    "answer": text,
+                    "source": document.source_type if document else "assistant",
+                    "retrieval": retrieval_for_document(document, "faq_exact") if document else {},
+                }
+
         retriever, retrieval_mode = self._build_retriever(documents, using_faq_rows)
         filters = {} if using_faq_rows else infer_metadata_filters(query)
         best = retriever.best_match(query, filters=filters or None)
@@ -94,12 +108,12 @@ class FaqTools:
         if best is None:
             return {
                 "status": "not_found",
-                "message": "No local knowledge-base answer met the confidence threshold.",
+                "message": not_sure_answer(),
                 "retrieval": {"threshold": retriever.confidence_threshold, "mode": retrieval_mode, "filter_mode": filter_mode, "filters": filters},
             }
 
         document = best.document
-        answer = document.metadata.get("answer") or _website_answer(document.title, document.content, document.url)
+        answer = document.metadata.get("answer") if using_faq_rows else format_answer(document, query)
         payload = best.to_dict()
         payload["mode"] = retrieval_mode
         payload["filter_mode"] = filter_mode
@@ -152,10 +166,10 @@ def _has_vectors_for_documents(documents, document_vectors: dict[str, list[float
     return all(document.doc_id in document_vectors for document in documents)
 
 
-def _website_answer(title: str, content: str, url: str) -> str:
-    snippet = " ".join(content.split())
-    if len(snippet) > 700:
-        snippet = snippet[:700].rsplit(" ", 1)[0] + "..."
-    if url:
-        return f"{title}: {snippet}\n\nSource: {url}"
-    return f"{title}: {snippet}"
+def _document_by_id(documents, doc_id: str):
+    if not doc_id:
+        return None
+    for document in documents:
+        if document.doc_id == doc_id:
+            return document
+    return None
