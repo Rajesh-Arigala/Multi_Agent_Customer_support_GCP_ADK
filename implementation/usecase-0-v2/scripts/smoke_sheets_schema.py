@@ -49,10 +49,10 @@ def main() -> None:
     for table, required in REQUIRED_HEADERS.items():
         try:
             rows = store.list_rows(table)
+            headers = set(table_headers(store, table)) if isinstance(store, GoogleSheetsStore) else set(rows[0].keys()) if rows else set()
         except Exception as exc:
             print(table, "error", str(exc).splitlines()[0])
             continue
-        headers = set(rows[0].keys()) if rows else set()
         missing = sorted(required - headers)
         print(table, "rows", len(rows), "missing_headers", ",".join(missing) if missing else "none")
 
@@ -60,6 +60,10 @@ def main() -> None:
 def list_sheet_titles(store: GoogleSheetsStore) -> list[str]:
     result = store.service.spreadsheets().get(spreadsheetId=store.spreadsheet_id).execute()
     return [sheet["properties"]["title"] for sheet in result.get("sheets", [])]
+
+
+def table_headers(store: GoogleSheetsStore, table: str) -> list[str]:
+    return store._headers(store._sheet_name(table))
 
 
 if __name__ == "__main__":
