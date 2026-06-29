@@ -12,7 +12,6 @@ except ImportError:
 from backend.adk.agents.appointment import create_appointment_agent
 from backend.adk.agents.escalation import create_escalation_agent
 from backend.adk.agents.triage import create_triage_agent
-from backend.adk.agents.web_search import create_web_search_agent
 from backend.config import MODEL_NAME
 
 
@@ -46,12 +45,6 @@ You are a clinic support orchestrator for Dr. Madhu Patil's practice. Your role 
    - "This is an emergency"
    - "Let me talk to a human"
 
-4. **Web Search Agent** - Route to ONLY when:
-   - Triage agent indicates information is not found in local knowledge
-   - Question is about external/general topics (not clinic-specific)
-   - Current events or non-clinic medical information
-   - NEVER route clinic service/treatment questions to web search
-
 ## Important Notes
 - This is a doctor appointment system, NOT a generic ticketing system
 - Do NOT route to ticket-related flows
@@ -70,7 +63,6 @@ def create_orchestrator_agent() -> Agent:
     triage_agent = create_triage_agent()
     appointment_agent = create_appointment_agent()
     escalation_agent = create_escalation_agent()
-    web_search_agent = create_web_search_agent()
     
     # Create orchestrator with sub-agents (no memory tools for initial deployment)
     orchestrator = Agent(
@@ -81,7 +73,6 @@ def create_orchestrator_agent() -> Agent:
             triage_agent,
             appointment_agent,
             escalation_agent,
-            web_search_agent,
         ],
     )
     

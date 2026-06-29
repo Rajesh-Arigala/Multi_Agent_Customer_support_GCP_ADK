@@ -7,7 +7,7 @@ from backend.storage.schema import DEFAULT_SHEET_TABS
 PROJECT_ID = os.getenv("GOOGLE_CLOUD_PROJECT", "multi-agent-adk-1")
 LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
 STAGING_BUCKET = os.getenv("STAGING_BUCKET", "gs://multi-agent-adk-1-adk-agent")
-MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.5-flash")
+MODEL_NAME = os.getenv("MODEL_NAME", "gemini-2.0-flash-exp")
 GOOGLE_SHEETS_ID = os.getenv("GOOGLE_SHEETS_ID", "1zwyHaspgLVjE5Xax0c9riylI6CBirf12v98k6mgp2c8")
 STORAGE_BACKEND = os.getenv("STORAGE_BACKEND", "google_sheets")
 
