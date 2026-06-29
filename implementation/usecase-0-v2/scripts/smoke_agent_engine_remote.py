@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import vertexai
-from google.cloud.aiplatform import AgentEngine
+from vertexai import agent_engines
 
 from backend.config import PROJECT_ID, LOCATION
 
@@ -35,18 +35,24 @@ async def test_remote_agent():
     print(f"Project: {PROJECT_ID}")
     print(f"Location: {LOCATION}\n")
     
+    # Load the agent resource name from file
+    try:
+        with open(".agent_engine_id.txt", "r") as f:
+            resource_name = f.read().strip()
+    except FileNotFoundError:
+        print("✗ .agent_engine_id.txt not found. Run deploy_agent_engine.py first.")
+        return
+    
+    print(f"Loading deployed agent: {resource_name}")
+    
     # Load the deployed agent
-    print("Loading deployed agent...")
-    agent_engine = AgentEngine(
-        project=PROJECT_ID,
-        location=LOCATION,
-        agent_id="doctor-assistant-adk",  # This should match the display_name from deployment
-    )
+    client = vertexai.Client(project=PROJECT_ID, location=LOCATION)
+    remote_app = client.agent_engines.get(resource_name=resource_name)
     
     # Create a session
     print("Creating session...")
-    session = agent_engine.create_session(user_id="test_user_001")
-    print(f"Session created: {session.id}\n")
+    session = await remote_app.async_create_session(user_id="test_user_001")
+    print(f"Session created: {session['id']}\n")
     
     # Test queries
     queries = [
@@ -57,9 +63,9 @@ async def test_remote_agent():
     
     for query in queries:
         print(f"User: {query}")
-        async for event in agent_engine.stream_query(
+        async for event in remote_app.async_stream_query(
             user_id="test_user_001",
-            session_id=session.id,
+            session_id=session["id"],
             message=query,
         ):
             text = extract_text(event)

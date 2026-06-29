@@ -17,7 +17,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import vertexai
-from google.cloud.aiplatform import AgentEngine
+from vertexai import agent_engines
 
 from backend.adk.app import create_adk_app
 from backend.config import PROJECT_ID, LOCATION, STAGING_BUCKET
@@ -28,6 +28,9 @@ def main():
     
     # Initialize Vertex AI
     vertexai.init(project=PROJECT_ID, location=LOCATION, staging_bucket=STAGING_BUCKET)
+    
+    # Create client for deployment
+    client = vertexai.Client(project=PROJECT_ID, location=LOCATION)
     
     print(f"Initializing Vertex AI...")
     print(f"  Project: {PROJECT_ID}")
@@ -42,30 +45,27 @@ def main():
     print("\nDeploying to Vertex AI Agent Engine...")
     print("This typically takes 3-5 minutes...")
     
-    remote_app = AgentEngine.create(
+    remote_app = client.agent_engines.create(
         agent=app,
-        project=PROJECT_ID,
-        location=LOCATION,
-        display_name="doctor-assistant-adk",
-        description="Doctor appointment assistant with ADK-based routing",
-        requirements=[
-            "google-adk>=1.5.0",
-            "google-cloud-aiplatform>=1.70.0",
-            "google-api-python-client>=2.198.0",
-            "google-auth>=2.55.1",
-            "deprecated>=1.2.14",
-        ],
-        staging_bucket=STAGING_BUCKET,
+        config={
+            "requirements": [
+                "google-adk>=1.5.0",
+                "google-cloud-aiplatform[adk,agent_engines]>=1.70.0",
+                "google-api-python-client>=2.198.0",
+                "google-auth>=2.55.1",
+                "deprecated>=1.2.14",
+            ],
+            "staging_bucket": STAGING_BUCKET,
+        }
     )
     
     print(f"\n✓ Deployed successfully!")
-    print(f"Resource name: {remote_app.resource_name}")
-    print(f"Agent Engine ID: {remote_app.name}")
+    print(f"Resource name: {remote_app.api_resource.name}")
     
-    # Save the agent ID for later use
+    # Save the agent resource name for later use
     with open(".agent_engine_id.txt", "w") as f:
-        f.write(remote_app.name)
-    print(f"Agent ID saved to .agent_engine_id.txt")
+        f.write(remote_app.api_resource.name)
+    print(f"Agent resource name saved to .agent_engine_id.txt")
     
     return remote_app
 
