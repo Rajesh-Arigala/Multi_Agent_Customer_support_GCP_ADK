@@ -45,14 +45,14 @@ async def test_remote_agent():
     
     print(f"Loading deployed agent: {resource_name}")
     
-    # Load the deployed agent
-    client = vertexai.Client(project=PROJECT_ID, location=LOCATION)
-    remote_app = client.agent_engines.get(resource_name=resource_name)
+    # Load the deployed agent using the correct API
+    from vertexai import agent_engines
+    remote_app = agent_engines.AdkApp(resource_name=resource_name)
     
     # Create a session
     print("Creating session...")
-    session = await remote_app.async_create_session(user_id="test_user_001")
-    print(f"Session created: {session['id']}\n")
+    session = remote_app.create_session(user_id="test_user_001")
+    print(f"Session created: {session.id}\n")
     
     # Test queries
     queries = [
@@ -63,9 +63,9 @@ async def test_remote_agent():
     
     for query in queries:
         print(f"User: {query}")
-        async for event in remote_app.async_stream_query(
+        for event in remote_app.stream_query(
             user_id="test_user_001",
-            session_id=session["id"],
+            session_id=session.id,
             message=query,
         ):
             text = extract_text(event)
