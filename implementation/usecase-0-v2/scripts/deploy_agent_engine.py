@@ -54,6 +54,7 @@ def main():
                 "google-api-python-client>=2.198.0",
                 "google-auth>=2.55.1",
                 "deprecated>=1.2.14",
+                "cloudpickle>=3.0.0",
             ],
             "staging_bucket": STAGING_BUCKET,
         }
