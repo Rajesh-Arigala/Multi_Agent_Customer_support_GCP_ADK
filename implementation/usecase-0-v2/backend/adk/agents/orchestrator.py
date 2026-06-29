@@ -2,17 +2,11 @@
 
 try:
     from google.adk.agents import Agent
-    from google.adk.agents.callback_context import CallbackContext
-    from google.adk.tools.preload_memory_tool import PreloadMemoryTool
     ADK_AVAILABLE = True
 except ImportError:
     ADK_AVAILABLE = False
-    # Define dummy classes for import compatibility
+    # Define dummy class for import compatibility
     class Agent:
-        pass
-    class CallbackContext:
-        pass
-    class PreloadMemoryTool:
         pass
 
 from backend.adk.agents.appointment import create_appointment_agent
@@ -58,25 +52,12 @@ You are a clinic support orchestrator for Dr. Madhu Patil's practice. Your role 
    - Current events or non-clinic medical information
    - NEVER route clinic service/treatment questions to web search
 
-## Context Management
-- Use preload_memory tool at the start of each conversation to load patient context
-- After each agent response, save relevant facts to memory for continuity
-
 ## Important Notes
 - This is a doctor appointment system, NOT a generic ticketing system
 - Do NOT route to ticket-related flows
 - Prioritize appointment booking for service-related queries
 - Always handle urgent cases immediately via escalation
 """
-
-
-# Auto-saves session to Memory Bank after every conversation
-# try/except: locally there is no memory service, so we skip silently
-async def save_to_memory_callback(callback_context: CallbackContext):
-    try:
-        await callback_context.add_session_to_memory()
-    except Exception:
-        pass
 
 
 def create_orchestrator_agent() -> Agent:
@@ -91,7 +72,7 @@ def create_orchestrator_agent() -> Agent:
     escalation_agent = create_escalation_agent()
     web_search_agent = create_web_search_agent()
     
-    # Create orchestrator with sub-agents and tools
+    # Create orchestrator with sub-agents (no memory tools for initial deployment)
     orchestrator = Agent(
         name="support_orchestrator",
         model=MODEL_NAME,
@@ -102,8 +83,6 @@ def create_orchestrator_agent() -> Agent:
             escalation_agent,
             web_search_agent,
         ],
-        tools=[PreloadMemoryTool()],
-        after_agent_callback=save_to_memory_callback,
     )
     
     return orchestrator

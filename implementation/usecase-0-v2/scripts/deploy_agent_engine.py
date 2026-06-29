@@ -55,6 +55,10 @@ def main():
                 "google-auth>=2.55.1",
                 "deprecated>=1.2.14",
                 "cloudpickle>=3.0.0",
+                "pydantic>=2.12",
+                "google-cloud-storage>=1.32.0",
+                "requests>=2.32.0",
+                "python-dotenv>=1.0.0",
             ],
             "staging_bucket": STAGING_BUCKET,
         }
