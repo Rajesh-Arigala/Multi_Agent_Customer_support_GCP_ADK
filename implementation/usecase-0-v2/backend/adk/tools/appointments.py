@@ -2,27 +2,25 @@
 
 from typing import Any
 
+from backend.config import KNOWLEDGE_DIR, GOOGLE_SHEETS_ID, STORAGE_BACKEND
 from backend.storage import StorageService
 from backend.tools.appointment_tools import AppointmentTools
 
 
-# Global storage instance
-_store: StorageService | None = None
-_appointment_tools: AppointmentTools | None = None
-
-
-def init_appointment_tools(store: StorageService) -> None:
-    """Initialize appointment tools with storage service."""
-    global _store, _appointment_tools
-    _store = store
-    _appointment_tools = AppointmentTools(store=store)
+def _get_storage() -> StorageService:
+    """Get or create storage service instance."""
+    if STORAGE_BACKEND == "google_sheets" and GOOGLE_SHEETS_ID:
+        from backend.storage import GoogleSheetsStore
+        return StorageService(GoogleSheetsStore(GOOGLE_SHEETS_ID))
+    else:
+        from backend.storage import CsvStore
+        return StorageService(CsvStore(KNOWLEDGE_DIR))
 
 
 def _get_appointment_tools() -> AppointmentTools:
-    """Get or initialize appointment tools."""
-    if _appointment_tools is None:
-        raise RuntimeError("Appointment tools not initialized. Call init_appointment_tools() first.")
-    return _appointment_tools
+    """Get appointment tools instance."""
+    store = _get_storage()
+    return AppointmentTools(store=store)
 
 
 def create_appointment(

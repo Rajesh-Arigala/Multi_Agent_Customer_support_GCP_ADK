@@ -1,29 +1,21 @@
 """FAQ tool wrapper for ADK."""
 
+import os
 from typing import Any
 
-from backend.config import KNOWLEDGE_DIR
+from backend.config import KNOWLEDGE_DIR, GOOGLE_SHEETS_ID, STORAGE_BACKEND
 from backend.storage import StorageService
 from backend.tools.faq_tools import FaqTools
 
 
-# Global storage instance (will be initialized from config)
-_store: StorageService | None = None
-_faq_tools: FaqTools | None = None
-
-
-def init_faq_tools(store: StorageService) -> None:
-    """Initialize FAQ tools with storage service."""
-    global _store, _faq_tools
-    _store = store
-    _faq_tools = FaqTools(store=store)
-
-
-def _get_faq_tools() -> FaqTools:
-    """Get or initialize FAQ tools."""
-    if _faq_tools is None:
-        raise RuntimeError("FAQ tools not initialized. Call init_faq_tools() first.")
-    return _faq_tools
+def _get_storage() -> StorageService:
+    """Get or create storage service instance."""
+    if STORAGE_BACKEND == "google_sheets" and GOOGLE_SHEETS_ID:
+        from backend.storage import GoogleSheetsStore
+        return StorageService(GoogleSheetsStore(GOOGLE_SHEETS_ID))
+    else:
+        from backend.storage import CsvStore
+        return StorageService(CsvStore(KNOWLEDGE_DIR))
 
 
 def get_faq_answer(query: str) -> dict[str, Any]:
@@ -37,5 +29,6 @@ def get_faq_answer(query: str) -> dict[str, Any]:
         Dictionary with status, answer, source, and retrieval metadata.
         Returns not_found status if no relevant information is available.
     """
-    tools = _get_faq_tools()
-    return tools.retrieve_faq_answer(query)
+    store = _get_storage()
+    faq_tools = FaqTools(store=store)
+    return faq_tools.retrieve_faq_answer(query)

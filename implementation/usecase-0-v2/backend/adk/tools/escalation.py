@@ -2,25 +2,19 @@
 
 from typing import Any
 
+from backend.config import KNOWLEDGE_DIR, GOOGLE_SHEETS_ID, STORAGE_BACKEND
 from backend.services.ids import new_id, utc_now
 from backend.storage import StorageService
 
 
-# Global storage instance
-_store: StorageService | None = None
-
-
-def init_escalation_tools(store: StorageService) -> None:
-    """Initialize escalation tools with storage service."""
-    global _store
-    _store = store
-
-
-def _get_store() -> StorageService:
-    """Get or initialize storage."""
-    if _store is None:
-        raise RuntimeError("Escalation tools not initialized. Call init_escalation_tools() first.")
-    return _store
+def _get_storage() -> StorageService:
+    """Get or create storage service instance."""
+    if STORAGE_BACKEND == "google_sheets" and GOOGLE_SHEETS_ID:
+        from backend.storage import GoogleSheetsStore
+        return StorageService(GoogleSheetsStore(GOOGLE_SHEETS_ID))
+    else:
+        from backend.storage import CsvStore
+        return StorageService(CsvStore(KNOWLEDGE_DIR))
 
 
 def escalate_to_desk(
@@ -43,7 +37,7 @@ def escalate_to_desk(
     Returns:
         Dictionary with status, emergency ticket ID, and escalation details.
     """
-    store = _get_store()
+    store = _get_storage()
     
     # Look up user if contact info not provided
     if not contact_info:
