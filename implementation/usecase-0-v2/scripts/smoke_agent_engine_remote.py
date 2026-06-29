@@ -45,9 +45,20 @@ async def test_remote_agent():
     
     print(f"Loading deployed agent: {resource_name}")
     
-    # Load the deployed agent using the correct API
+    # Load the deployed agent - try different API patterns
     from vertexai import agent_engines
-    remote_app = agent_engines.AdkApp(resource_name=resource_name)
+    
+    # Try loading via agent_engines directly
+    try:
+        remote_app = agent_engines.AdkApp.get(resource_name)
+    except (TypeError, AttributeError):
+        # Try via client
+        try:
+            client = vertexai.Client(project=PROJECT_ID, location=LOCATION)
+            remote_app = client.agent_engines.get(resource_name)
+        except TypeError:
+            # Try with named parameter
+            remote_app = client.agent_engines.get(name=resource_name)
     
     # Create a session
     print("Creating session...")
